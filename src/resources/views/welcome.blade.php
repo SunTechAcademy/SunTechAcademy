@@ -19,6 +19,12 @@
     </head>
     <body class="bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18] flex p-6 lg:p-8 items-center lg:justify-center min-h-screen flex-col">
         <header class="w-full lg:max-w-4xl max-w-[335px] text-sm mb-6 not-has-[nav]:hidden">
+            <div class="flex-shrink-0">
+                <a href="/">
+                    <img src="{{ asset('images/SunTechAcademy.png') }}" alt="SunTechAcademy" class="h-12 w-auto">
+                </a>
+            </div>
+
             @if (Route::has('login'))
                 <nav class="flex items-center justify-end gap-4">
                     @auth
@@ -26,23 +32,23 @@
                             href="{{ url('/dashboard') }}"
                             class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal"
                         >
-                            Dashboard
+                            ダッシュボード
                         </a>
                     @else
                         <a
                             href="{{ route('login') }}"
                             class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal"
                         >
-                            Log in
+                            ログイン
                         </a>
 
-                        @if (Route::has('register'))
+                        <!-- @if (Route::has('register'))
                             <a
                                 href="{{ route('register') }}"
                                 class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
-                                Register
+                                新規登録
                             </a>
-                        @endif
+                        @endif -->
                     @endauth
                 </nav>
             @endif
@@ -53,7 +59,7 @@
                 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full items-stretch">
                     
-                    <a href="#" class="flex flex-col bg-white dark:bg-[#161615] border border-[#e3e3e0] dark:border-[#3E3E3A] p-6 rounded-lg shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                    <a href="{{ url('/dashboard') }}" class="flex flex-col bg-white dark:bg-[#161615] border border-[#e3e3e0] dark:border-[#3E3E3A] p-6 rounded-lg shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
                         <img src="https://placehold.jp/24/3b82f6/ffffff/400x200.png?text=Beginner+Course" alt="初級" class="w-full h-40 object-cover">
                         <div class="p-6 flex flex-col flex-grow">
                             <div class="inline-block self-start px-3 py-1 mb-4 text-xs font-semibold tracking-wider text-blue-600 uppercase bg-blue-100 rounded-full">初期フェーズ 3ヶ月〜</div>
@@ -71,7 +77,7 @@
                         </div>
                     </a>
 
-                    <a href="#" class="flex flex-col bg-white dark:bg-[#161615] border border-[#e3e3e0] dark:border-[#3E3E3A] p-6 rounded-lg shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                    <a href="{{ url('/dashboard') }}" class="flex flex-col bg-white dark:bg-[#161615] border border-[#e3e3e0] dark:border-[#3E3E3A] p-6 rounded-lg shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
                         <img src="https://placehold.jp/24/f97316/ffffff/400x200.png?text=Intermediate+Course" alt="中級" class="w-full h-40 object-cover">
                         <div class="p-6 flex flex-col flex-grow">
                             <div class="inline-block self-start px-3 py-1 mb-4 text-xs font-semibold tracking-wider text-orange-600 uppercase bg-orange-100 rounded-full">実務型 9ヶ月〜</div>
@@ -84,7 +90,7 @@
                         </div>
                     </a>
 
-                    <a href="#" class="flex flex-col bg-white dark:bg-[#161615] border border-[#e3e3e0] dark:border-[#3E3E3A] p-6 rounded-lg shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                    <a href="{{ url('/dashboard') }}" class="flex flex-col bg-white dark:bg-[#161615] border border-[#e3e3e0] dark:border-[#3E3E3A] p-6 rounded-lg shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
                         <img src="https://placehold.jp/24/a855f7/ffffff/400x200.png?text=Advanced+Course" alt="上級" class="w-full h-40 object-cover">
                         <div class="p-6 flex flex-col flex-grow">
                             <div class="inline-block self-start px-3 py-1 mb-4 text-xs font-semibold tracking-wider text-purple-600 uppercase bg-purple-100 rounded-full">プロレベル 1年〜</div>

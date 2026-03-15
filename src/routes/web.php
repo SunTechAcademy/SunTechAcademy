@@ -16,6 +16,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // コース詳細
+    Route::get('/courses/beginner', function () { return view('courses.beginner'); })->name('courses.beginner');
+    Route::get('/courses/intermediate', function () { return view('courses.intermediate'); })->name('courses.intermediate');
+    Route::get('/courses/advanced', function () { return view('courses.advanced'); })->name('courses.advanced');
 });
 
 require __DIR__.'/auth.php';
@@ -33,9 +38,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
             return view('admin.dashboard');
         })->name('dashboard');
 
-        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
         Route::post('logout', [AuthController::class, 'destroy'])->name('logout');
     });
 });

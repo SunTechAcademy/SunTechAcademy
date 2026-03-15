@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\CourseController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -18,9 +19,20 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // コース詳細
-    Route::get('/courses/beginner', function () { return view('courses.beginner'); })->name('courses.beginner');
-    Route::get('/courses/intermediate', function () { return view('courses.intermediate'); })->name('courses.intermediate');
-    Route::get('/courses/advanced', function () { return view('courses.advanced'); })->name('courses.advanced');
+    Route::get('/courses/beginner', [CourseController::class, 'beginner'])->name('courses.beginner');
+
+    Route::get('/courses/intermediate', function () { 
+        return "中級コースは準備中です。"; 
+    })->name('courses.intermediate');
+    
+    Route::get('/courses/advanced', function () { 
+        return "上級コースは準備中です。"; 
+    })->name('courses.advanced');
+
+    // レッスン詳細画面（フォルダ階層に合わせる）
+    Route::get('/courses/lessons/{id}', [CourseController::class, 'showLesson'])->name('lessons.show');
+    // 完了ボタン用
+    Route::post('/chapters/{id}/complete', [CourseController::class, 'completeChapter'])->name('chapters.complete');
 });
 
 require __DIR__.'/auth.php';

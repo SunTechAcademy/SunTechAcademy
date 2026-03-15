@@ -46,4 +46,22 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'chapter_user')->withPivot('completed_at');
+    }
+
+    public function lesson()
+    {
+        return $this->belongsTo(Lesson::class);
+    }
+
+    public function chapters() {
+        return $this->belongsToMany(Chapter::class, 'chapter_user')->withPivot('completed_at');
+    }
+
+    public function loginHistories() {
+        return $this->hasMany(LoginHistory::class);
+    }
 }

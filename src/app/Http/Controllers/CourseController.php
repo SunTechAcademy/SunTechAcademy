@@ -32,8 +32,8 @@ class CourseController extends Controller
         $progress = $totalChapters > 0 ? ($completedChaptersCount / $totalChapters) * 100 : 0;
 
         // 3. 課題進捗 (課題フラグが立っているチャプター数)
-        $totalAssignments = Chapter::where('is_assignment', true)->count();
-        $completedAssignments = $user->chapters()->where('is_assignment', true)->count();
+        $totalAssignments = Chapter::where('is_assignment', 1)->count();
+        $completedAssignments = $user->chapters()->where('is_assignment', 1)->count();
 
         // レッスン一覧を取得（チャプターも一緒に）
         $lessons = Lesson::with('chapters')->orderBy('sort_order')->get();
@@ -75,6 +75,7 @@ class CourseController extends Controller
         Auth::user()->chapters()->toggle([
             $chapterId => ['completed_at' => now()]
         ]);
-        return back();
+        
+        return redirect(url()->previous() . "#chapter-{$chapterId}");
     }
 }

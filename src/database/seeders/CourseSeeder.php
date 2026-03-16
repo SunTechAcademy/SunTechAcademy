@@ -21,7 +21,7 @@ class CourseSeeder extends Seeder
         $lesson19 = Lesson::create([
             'course_id' => $course->id,
             'title' => 'オリジナルWebサービスの構築',
-            'estimated_time' => 2400, // 40時間
+            'estimated_time' => 1200, // 40時間
             'sort_order' => 1,
         ]);
 

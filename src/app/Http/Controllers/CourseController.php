@@ -32,8 +32,25 @@ class CourseController extends Controller
         $progress = $totalChapters > 0 ? ($completedChaptersCount / $totalChapters) * 100 : 0;
 
         // 3. 課題進捗 (課題フラグが立っているチャプター数)
-        $totalAssignments = Chapter::where('is_assignment', 1)->count();
-        $completedAssignments = $user->chapters()->where('is_assignment', 1)->count();
+        $totalAssignments = Lesson::whereHas('chapters', function ($query) {
+            $query->where('is_assignment', 1);
+        })->count();
+        $completedAssignments = Lesson::whereHas('chapters', function ($query) {
+            $query->where('is_assignment', 1);
+        })->get()->filter(function ($lesson) use ($user) {
+            // 1. そのレッスン内にある「課題チャプター」のID一覧を取得
+            $assignmentChapterIds = $lesson->chapters()
+                ->where('is_assignment', 1)
+                ->pluck('id');
+
+            // 2. ユーザーが完了したチャプターの中に、上記IDがいくつ含まれるかカウント
+            $completedCount = $user->chapters()
+                ->whereIn('chapter_id', $assignmentChapterIds)
+                ->count();
+
+            // 3. 「レッスン内の課題数」と「完了した課題数」が一致すれば、そのレッスンは完了！
+            return $completedCount >= $assignmentChapterIds->count();
+        })->count();
 
         // レッスン一覧を取得（チャプターも一緒に）
         $lessons = Lesson::with('chapters')->orderBy('sort_order')->get();

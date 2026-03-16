@@ -27,7 +27,7 @@ class Lesson1Seeder extends Seeder
         $lesson1 = Lesson::create([
             'course_id' => $course->id,
             'title' => '学習の進め方と事前準備',
-            'estimated_time' => 120,
+            'estimated_time' => 60,
             'sort_order' => 1,
         ]);
 

@@ -46,6 +46,26 @@
                     </div>
                 </div>
             @endforeach
+            
+            <div class="mt-16 pb-12 text-center border-t border-gray-200 pt-12">
+                <div class="mb-6">
+                    <span class="inline-block p-3 rounded-full bg-green-100 text-green-600 mb-4">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </span>
+                    <p class="text-xl font-bold text-gray-800">お疲れ様でした！このレッスンはここまでです。</p>
+                    <p class="text-gray-500 mt-2">基本をしっかり押さえられましたね。この調子で次へ進みましょう！</p>
+                </div>
+
+                <a href="{{ route('lessons.show', 2) }}" class="inline-flex items-center gap-2 px-10 py-4 bg-[#6A73A6] text-white font-bold rounded-xl shadow-lg hover:bg-[#586191] transition-all active:scale-95 group">
+                    次のレッスンへ
+                    <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                    </svg>
+                </a>
+            </div>
+
         </div>
     </div>
 </x-app-layout>

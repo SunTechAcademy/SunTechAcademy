@@ -64,6 +64,8 @@ class DatabaseSeeder extends Seeder
             Lesson3_6Seeder::class,
             Lesson3_7Seeder::class,
             Lesson3_8Seeder::class,
+            Lesson4Seeder::class,
+            Lesson4_2Seeder::class,
         ]);
         
         // 学習進捗の作成 

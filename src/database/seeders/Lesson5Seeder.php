@@ -25,7 +25,7 @@ class Lesson5Seeder extends Seeder
                 'title' => 'CSS基礎'
             ],
             [
-                'estimated_time' => 180,
+                'estimated_time' => 120,
                 'sort_order' => 5,
             ]
         );

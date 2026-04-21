@@ -72,6 +72,8 @@ class DatabaseSeeder extends Seeder
             Lesson4_6Seeder::class,
             Lesson4_7Seeder::class,
             Lesson4_8Seeder::class,
+            Lesson5Seeder::class,
+            Lesson5_1Seeder::class,
             Lesson6Seeder::class,
             Lesson6_2Seeder::class,
             Lesson6_3Seeder::class

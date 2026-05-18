@@ -127,7 +127,15 @@ class DatabaseSeeder extends Seeder
             Lesson12_13Seeder::class,
             Lesson12_14Seeder::class,
             Lesson12_15Seeder::class,
-            
+            Lesson13Seeder::class,
+            Lesson13_2Seeder::class,
+            Lesson13_3Seeder::class,
+            Lesson13_4Seeder::class,
+            Lesson13_5Seeder::class,
+            Lesson13_6Seeder::class,
+            Lesson13_7Seeder::class,
+            Lesson13_8Seeder::class,
+            Lesson13_9Seeder::class,
         ]);
         
         // 学習進捗の作成 

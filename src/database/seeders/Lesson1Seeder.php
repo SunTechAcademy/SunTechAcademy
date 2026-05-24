@@ -7,17 +7,18 @@ use App\Models\Course;
 use App\Models\Lesson;
 use App\Models\Chapter;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class Lesson1Seeder extends Seeder
 {
     public function run(): void
     {
         // 制約を一時解除してリセット
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        Schema::disableForeignKeyConstraints();
         Chapter::truncate();
         Lesson::truncate();
         Course::truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        Schema::enableForeignKeyConstraints();
 
         $course = Course::create([
             'title' => 'エンジニア基礎教育',

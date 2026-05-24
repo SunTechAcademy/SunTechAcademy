@@ -10,13 +10,14 @@ use App\Models\Lesson;
 use App\Models\Chapter;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
         // 外部キー制約を一時無効化してリセット
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        Schema::disableForeignKeyConstraints();
         Admin::truncate();
         User::truncate();
         DB::table('login_histories')->truncate();
@@ -24,7 +25,7 @@ class DatabaseSeeder extends Seeder
         Chapter::truncate();
         Lesson::truncate();
         Course::truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        Schema::enableForeignKeyConstraints();
 
         // --- 管理者データの作成 ---
         Admin::create([

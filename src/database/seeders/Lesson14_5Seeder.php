@@ -45,7 +45,7 @@ class Lesson14_5Seeder extends Seeder
         <div class="grid md:grid-cols-2 gap-6 mt-4">
             <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
                 <h4 class="font-bold text-blue-600 mb-2">ローカルリポジトリ</h4>
-                <p class="text-sm text-gray-600">自分のPC（Cloud9など）上で実際に作業を行うリポジトリです。</p>
+                <p class="text-sm text-gray-600">自分のPC上で実際に作業を行うリポジトリです。</p>
             </div>
             <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
                 <h4 class="font-bold text-purple-600 mb-2">リモートリポジトリ</h4>

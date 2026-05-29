@@ -55,9 +55,9 @@ class Lesson17_4Seeder extends Seeder
                 <div class="flex items-start gap-4 p-5 bg-white border border-gray-200 rounded-xl shadow-sm">
                     <div class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">2</div>
                     <div>
-                        <h4 class="font-bold text-gray-800">Cloud9からSupabaseに対してマイグレーションを実行する</h4>
+                        <h4 class="font-bold text-gray-800">VScodeからSupabaseに対してマイグレーションを実行する</h4>
                         <p class="text-xs text-gray-600 mt-1">
-                            作成した空のデータベースに対して、Cloud9（開発環境）から接続し、テーブル構造を作成（マイグレーション）します。
+                            作成した空のデータベースに対して、VScode（開発環境）から接続し、テーブル構造を作成（マイグレーション）します。
                         </p>
                     </div>
                 </div>

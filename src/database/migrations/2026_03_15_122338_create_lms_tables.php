@@ -33,7 +33,7 @@ return new class extends Migration
             $table->foreignId('lesson_id')->constrained()->cascadeOnDelete();
             $table->string('title'); // 「1. 学習の目標」など
             $table->longText('content')->nullable();
-            $table->boolean('is_assignment')->default(false); // 課題かどうか（課題進捗の計算用）
+            $table->tinyInteger('is_assignment')->default(0); // 課題かどうか（課題進捗の計算用）
             $table->integer('sort_order');
             $table->timestamps();
         });

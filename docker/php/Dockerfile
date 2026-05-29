@@ -5,8 +5,9 @@ RUN apt-get update && apt-get install -y \
     git \
     unzip \
     libzip-dev \
+    libpq-dev \
     default-mysql-client \
-    && docker-php-ext-install pdo_mysql zip
+    && docker-php-ext-install pdo_mysql pdo_pgsql pgsql zip
 
 # Node.jsとnpmのインストール (Breezeのフロントエンドビルド用)
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \

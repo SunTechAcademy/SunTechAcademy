@@ -122,11 +122,11 @@ class Lesson16_3Seeder extends Seeder
             </h4>
             <p class="text-sm leading-relaxed">
                 ここから開発のスタートです。まずはLaravelプロジェクトを作成します。Laravelプロジェクトには、Laravelによるアプリケーション開発のベースとなる一連のファイルが格納されています。<br>
-                ターミナルでワークスペース直下（<code>~/environment</code>）に移動したうえで<code>composer create-project</code>コマンドを実行します。
+                XAMPPのhtdocsファイルに移動したうえで<code>composer create-project</code>コマンドを実行します。
             </p>
             <div class="bg-gray-900 rounded-lg p-4 font-mono text-green-400 text-sm overflow-x-auto">
                 # Laravelプロジェクトの作成<br>
-                composer create-project --prefer-dist laravel/laravel message-board ^9.0
+                htdocs/ $ composer create-project --prefer-dist laravel/laravel message-board ^9.0
             </div>
             
             <div class="p-4 bg-orange-50 border-l-4 border-orange-400 text-sm space-y-2">

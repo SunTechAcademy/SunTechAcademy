@@ -64,4 +64,22 @@ class User extends Authenticatable
     public function loginHistories() {
         return $this->hasMany(LoginHistory::class);
     }
+
+    /**
+     * 管理者権限を所持しているか判定
+     */
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    /**
+     * 完了した中級タスクとのリレーション
+     */
+    public function completedIntermediateTasks()
+    {
+        return $this->belongsToMany(IntermediateTask::class, 'intermediate_task_user')
+                    ->withPivot('completed_at')
+                    ->withTimestamps();
+    }
 }

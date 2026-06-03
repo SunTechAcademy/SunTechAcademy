@@ -1,0 +1,64 @@
+<x-app-layout>
+    <x-slot name="header">
+        <div class="flex justify-between items-center">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ $phases[$task->phase] }}：{{ $task->title }}
+            </h2>
+            <a href="{{ route('courses.intermediate.phase', ['phase' => $task->phase]) }}" class="text-sm font-bold text-gray-600 hover:text-gray-900">
+                ← タスク一覧へ戻る
+            </a>
+        </div>
+    </x-slot>
+
+    <div class="py-12">
+        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                
+                @if($task->image_path)
+                    <div class="w-full bg-gray-50 border-b p-4 flex justify-center">
+                        <!-- <img src="{{ asset('storage/' . $task->image_path) }}" class="max-h-80 w-auto object-contain rounded shadow-sm"> -->
+                        <img src="/storage/{{ $task->image_path }}" class="max-h-80 w-auto object-contain rounded shadow-sm">
+                    </div>
+                @endif
+
+                <div class="p-8 space-y-6">
+                    <div class="flex items-center space-x-2">
+                        <span class="px-3 py-1 bg-orange-100 text-orange-800 text-xs font-bold rounded-full">
+                            {{ $phases[$task->phase] }}フェーズ
+                        </span>
+                        @if($isCompleted)
+                            <span class="px-3 py-1 bg-green-100 text-green-800 text-xs font-bold rounded-full">
+                                ✓ この実務タスクは完了しています
+                            </span>
+                        @else
+                            <span class="px-3 py-1 bg-gray-100 text-gray-600 text-xs font-bold rounded-full">
+                                ⏳ 未完了（取り組み中）
+                            </span>
+                        @endif
+                    </div>
+
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-800 border-b pb-2 mb-3">📋 実務要求・作業内容詳細</h3>
+                        <p class="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">{{ $task->description }}</p>
+                    </div>
+
+                    <div class="pt-6 border-t border-gray-100 flex justify-end">
+                        @if(!$isCompleted)
+                            <form action="{{ route('courses.intermediate.complete_task', ['id' => $task->id]) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg shadow-md hover:shadow transition-all text-sm">
+                                    この実務タスクを完了状態にする
+                                </button>
+                            </form>
+                        @else
+                            <button disabled class="bg-gray-200 text-gray-400 font-bold py-3 px-8 rounded-lg text-sm cursor-not-allowed">
+                                完了済みタスクです
+                            </button>
+                        @endif
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</x-app-layout>

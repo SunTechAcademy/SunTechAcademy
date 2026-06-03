@@ -19,6 +19,10 @@
                     <x-nav-link :href="route('courses.beginner')" :active="request()->routeIs('courses.beginner')">
                         {{ __('初級エンジニア基礎教育') }}
                     </x-nav-link>
+
+                    <x-nav-link :href="route('courses.intermediate.index')" :active="request()->routeIs('courses.intermediate.*')">
+                        {{ __('中級実務経験教育') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -79,6 +83,10 @@
 
             <x-responsive-nav-link :href="route('courses.beginner')" :active="request()->routeIs('courses.beginner')">
                 {{ __('初級エンジニア基礎教育') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('courses.intermediate.index')" :active="request()->routeIs('courses.intermediate.*')">
+                {{ __('中級実務経験教育') }}
             </x-responsive-nav-link>
         </div>
 

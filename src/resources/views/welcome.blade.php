@@ -94,11 +94,11 @@
                         <img src="https://placehold.jp/24/a855f7/ffffff/400x200.png?text=Advanced+Course" alt="上級" class="w-full h-40 object-cover">
                         <div class="p-6 flex flex-col flex-grow">
                             <div class="inline-block self-start px-3 py-1 mb-4 text-xs font-semibold tracking-wider text-purple-600 uppercase bg-purple-100 rounded-full">プロレベル 1年〜</div>
-                            <h2 class="text-xl font-bold mb-2 dark:text-white">【上級】アーキテクト育成</h2>
+                            <h2 class="text-xl font-bold mb-2 dark:text-white">【上級】PM、PMO、PLレベル</h2>
                             <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">目的：技術で課題を解決できるエンジニアを育成する。</p>
                             <div class="space-y-3 text-sm dark:text-gray-300 flex-grow">
                                 <h3 class="font-bold border-b pb-1">内容</h3>
-                                <p>0→100のアプリ開発、収益化、ECサイト、SaaS、マイクロサービス設計などの実践タスク。</p>
+                                <p>実際に実務経験のPM、PMO、PLレベルのスキルを習得します。</p>
                             </div>
                         </div>
                     </a>

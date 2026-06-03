@@ -19,11 +19,11 @@
                     </div>
                 </a>
 
-                <a href="{{ route('courses.intermediate') }}" class="flex flex-col bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-all overflow-hidden group">
+                <a href="{{ route('courses.intermediate.index') }}" class="flex flex-col bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-all overflow-hidden group">
                     <img src="https://placehold.jp/24/f97316/ffffff/400x200.png?text=Intermediate+Course" class="w-full h-32 object-cover">
                     <div class="p-5">
                         <h4 class="font-bold text-lg mb-2 group-hover:text-orange-600">【中級】実務スキル</h4>
-                        <p class="text-sm text-gray-600">実務に近い環境でシステムの保守・運用を学びます。</p>
+                        <p class="text-sm text-gray-600">実際に実務経験となるコースになります。開発現場に入るためには必須の業務スキルになります。</p>
                         <div class="mt-4 text-xs font-bold text-orange-500">学習を始める →</div>
                     </div>
                 </a>
@@ -31,8 +31,8 @@
                 <a href="{{ route('courses.advanced') }}" class="flex flex-col bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-all overflow-hidden group">
                     <img src="https://placehold.jp/24/a855f7/ffffff/400x200.png?text=Advanced+Course" class="w-full h-32 object-cover">
                     <div class="p-5">
-                        <h4 class="font-bold text-lg mb-2 group-hover:text-purple-600">【上級】アーキテクト</h4>
-                        <p class="text-sm text-gray-600">0から100の設計・開発ができるエンジニアを目指します。</p>
+                        <h4 class="font-bold text-lg mb-2 group-hover:text-purple-600">【上級】PM、PMO、PLレベル</h4>
+                        <p class="text-sm text-gray-600">実際に実務経験のPM、PMO、PLレベルのスキルを習得します。</p>
                         <div class="mt-4 text-xs font-bold text-purple-500">学習を始める →</div>
                     </div>
                 </a>

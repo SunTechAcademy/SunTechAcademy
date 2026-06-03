@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\IntermediateCourseController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -21,9 +22,15 @@ Route::middleware('auth')->group(function () {
     // コース詳細
     Route::get('/courses/beginner', [CourseController::class, 'beginner'])->name('courses.beginner');
 
-    Route::get('/courses/intermediate', function () { 
-        return "中級コースは準備中です。"; 
-    })->name('courses.intermediate');
+    // --- 中級コース関連ルート ---
+    Route::prefix('courses/intermediate')->name('courses.intermediate.')->group(function () {
+        Route::get('/', [IntermediateCourseController::class, 'index'])->name('index');
+        Route::get('/create', [IntermediateCourseController::class, 'create'])->name('create');
+        Route::post('/store', [IntermediateCourseController::class, 'store'])->name('store');
+        Route::get('/phase/{phase}', [IntermediateCourseController::class, 'phaseTasks'])->name('phase');
+        Route::get('/tasks/{id}', [IntermediateCourseController::class, 'showTask'])->name('show_task');
+        Route::post('/tasks/{id}/complete', [IntermediateCourseController::class, 'completeTask'])->name('complete_task');
+    });
     
     Route::get('/courses/advanced', function () { 
         return "上級コースは準備中です。"; 

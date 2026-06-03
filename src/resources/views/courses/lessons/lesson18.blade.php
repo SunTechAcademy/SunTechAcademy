@@ -69,7 +69,6 @@
                         </svg>
                     </span>
                     <p class="text-xl font-bold text-gray-800">お疲れ様でした！Lesson 18のイントロダクションは終了です。</p>
-                    <p class="text-gray-500 mt-2">いよいよ、X（旧Twitter）クローンの開発をスタートしましょう！</p>
                 </div>
                 <a href="{{ route('courses.beginner') }}" class="inline-flex items-center gap-2 px-10 py-4 bg-gray-800 text-white font-bold rounded-xl shadow-lg hover:bg-gray-900 transition-all active:scale-95">
                     コース一覧へ戻る

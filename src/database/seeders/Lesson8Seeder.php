@@ -51,7 +51,7 @@ class Lesson8Seeder extends Seeder
         <h4 class="font-bold text-gray-800">全体の位置づけ（横へスクロールできます）</h4>
         <div class="overflow-x-auto pb-4">
             <div class="min-w-[600px] bg-gray-50 p-4 rounded-xl border border-gray-100">
-                <img src="/images/lessons/Lesson8-1.png" alt="全体の位置づけ" class="w-full h-auto">
+                <img src="/images/Lesson8-1.png" alt="全体の位置づけ" class="w-full h-auto">
             </div>
         </div>
     </section>

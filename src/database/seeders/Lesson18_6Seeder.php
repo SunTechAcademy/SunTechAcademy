@@ -91,7 +91,7 @@ class Lesson18_6Seeder extends Seeder
                     <h5 class="font-bold text-orange-900 text-sm border-b border-orange-200 pb-1">【ステートレス（状態を維持しない）な会話の場合】</h5>
                     <div class="text-xs space-y-2 font-mono text-orange-800 leading-relaxed">
                         <p><strong>店員：</strong>「ご注文をどうぞ」</p>
-                        <p><strong>客：</strong>「ハンバーガーセットをお願いします」</p>
+                        <p><strong>客：</strong>「ハンバーガーセットをお願いします</p>
                         <p><strong>店員：</strong>「サイドメニューは何になさいますか？」</p>
                         <p><strong>客：</strong>「ハンバーガーセットをポテトで」</p>
                         <p><strong>店員：</strong>「ドリンクは何になさいますか？」</p>
@@ -271,33 +271,15 @@ Route::middleware('auth')->group(function () {
                     <code>RegisteredUserController</code> は、 <code>app/Http/Controllers/Auth/RegisteredUserController.php</code> に存在します。
                 </p>
 
-                <p class="text-xs font-bold text-gray-500 italic">app/Http/Controllers/Auth/RegisteredUserController.php（抜粋）</p>
-                <pre class="bg-gray-100 p-4 rounded text-xs font-mono border">class RegisteredUserController extends Controller
-{
-    /**
-     * Display the registration view.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function create()
-    {
-        return view('auth.register');
-    }</pre>
-                <p class="text-sm leading-relaxed">
-                    <code>create()</code> メソッドでは、 <code>return view('auth.register');</code> で、 <code>auth.register</code> を返しています。<br>
-                    <code>auth.register</code> は、 <code>resources/views/auth/register.blade.php</code> です。
-                </p>
-
                 <p class="text-xs font-bold text-gray-500 italic">resources/views/auth/register.blade.php（抜粋）</p>
                 <pre class="bg-gray-100 p-4 rounded text-xs font-mono border">@section('content')
 
-    <div class="prose mx-auto text-center">
-        <h2>Sign up</h2>
-    </div>
+    &lt;div class="prose mx-auto text-center"&gt;
+        &lt;h2&gt;Sign up&lt;/h2&gt;
+    &lt;/div&gt;
 
-    <div class="flex justify-center">
-        <form method="POST" action="{{ route('register') }}" class="w-1/2"></pre>
-                <p class="text-sm leading-relaxed">
+    &lt;div class="flex justify-center"&gt;
+        &lt;form method="POST" action="{{ route('register') }}" class="w-1/2"&gt;</pre> <p class="text-sm leading-relaxed">
                     <code>&lt;form method="POST" action="{{ route('register') }}" class="w-1/2"&gt;</code> の <code>{{ route('register') }}</code> が、 <code>method="POST"</code> で送信され、 <code>RegisteredUserController.php</code> の <code>store()</code> メソッドが実行されます。
                 </p>
 
@@ -339,7 +321,7 @@ Route::middleware('auth')->group(function () {
             <h4 class="font-bold text-sm text-gray-800">（参考）event(new Registered($user));</h4>
             <p class="text-xs text-red-600 font-bold italic">⚠️ この内容は参考資料のため実際に操作しないでください。</p>
             <p class="text-xs leading-relaxed">
-                <code>event(new Registered($user));</code> で利用されている <code>Registered</code> は、 <code>app/Providers/EventServiceProvider.php</code> にある、 <code>Registered::class</code> です。<br>
+                <code>event(new Registered($user));</code> で利用されている <code>Registered</code> は、 <code>app/Providers/EventServiceProvider.php</code>にある、 <code>Registered::class</code> です。<br>
                 <code>Registered::class</code> が実行されると、 <code>SendEmailVerificationNotification::class</code> が実行されます。<br>
                 <code>SendEmailVerificationNotification::class</code> は、登録したユーザのメールが正しいものか確認するメール認証を行なうクラスです。<br>
                 実際にここではメール認証は行われず、ユーザー登録が完了しています。<br>
@@ -486,13 +468,12 @@ class User extends Authenticatable implements MustVerifyEmail // 追記
 
 @section('content')
 
-    <div class="prose mx-auto text-center">
-        <h2>Log in</h2>
-    </div>
+    &lt;div class="prose mx-auto text-center"&gt;
+        &lt;h2&gt;Log in&lt;/h2&gt;
+    &lt;/div&gt;
 
-    <div class="flex justify-center">
-        <form method="POST" action="{{ route('login') }}" class="w-1/2"></pre>
-                <p class="text-sm leading-relaxed">
+    &lt;div class="flex justify-center"&gt;
+        &lt;form method="POST" action="{{ route('login') }}" class="w-1/2"&gt;</pre> <p class="text-sm leading-relaxed">
                     <code>&lt;form method="POST" action="{{ route('login') }}" class="w-1/2"&gt;</code> の <code>{{ route('login') }}</code> が、 <code>method="POST"</code> で送信され、 <code>AuthenticatedSessionController.php</code> の <code>store()</code> メソッドが実行されます。
                 </p>
 

@@ -42,19 +42,35 @@
                         <p class="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">{{ $task->description }}</p>
                     </div>
 
-                    <div class="pt-6 border-t border-gray-100 flex justify-end">
-                        @if(!$isCompleted)
-                            <form action="{{ route('courses.intermediate.complete_task', ['id' => $task->id]) }}" method="POST">
-                                @csrf
-                                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg shadow-md hover:shadow transition-all text-sm">
-                                    この実務タスクを完了状態にする
+                    <div class="pt-6 border-t border-gray-100 flex justify-between items-center">
+                        <div>
+                            @if($task->user_id === Auth::id())
+                                <a href="{{ route('courses.intermediate.edit_task', ['id' => $task->id]) }}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-xs mr-2 transition shadow-sm">
+                                    編集
+                                </a>
+                                <form action="{{ route('courses.intermediate.destroy_task', ['id' => $task->id]) }}" method="POST" class="inline-block" onsubmit="return confirm('本当にこのタスクを削除しますか？');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded text-xs transition shadow-sm">
+                                        削除
+                                    </button>
+                                </form>
+                            @endif
+                        </div>
+                        <div>
+                            @if(!$isCompleted)
+                                <form action="{{ route('courses.intermediate.complete_task', ['id' => $task->id]) }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg shadow-md hover:shadow transition-all text-sm">
+                                        この実務タスクを完了状態にする
+                                    </button>
+                                </form>
+                            @else
+                                <button disabled class="bg-gray-200 text-gray-400 font-bold py-3 px-8 rounded-lg text-sm cursor-not-allowed">
+                                    完了済みタスクです
                                 </button>
-                            </form>
-                        @else
-                            <button disabled class="bg-gray-200 text-gray-400 font-bold py-3 px-8 rounded-lg text-sm cursor-not-allowed">
-                                完了済みタスクです
-                            </button>
-                        @endif
+                            @endif
+                        </div>
                     </div>
                 </div>
 

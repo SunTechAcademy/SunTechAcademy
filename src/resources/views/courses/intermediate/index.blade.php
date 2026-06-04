@@ -19,6 +19,36 @@
                 </p>
             </div>
 
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <h4 class="font-bold text-gray-800 mb-2 flex items-center">
+                            💻 環境構築はこちら
+                        </h4>
+                        <p class="text-xs text-gray-500 leading-relaxed mb-4">
+                            READMEを確認しながら環境構築をしてから実務経験を学んでいきましょう。
+                        </p>
+                    </div>
+                    <a href="https://github.com/SunTechAcademy/SunTechAcademy" target="_blank" rel="noopener noreferrer" class="block text-center bg-gray-800 hover:bg-gray-900 text-white font-bold py-2.5 px-4 rounded-lg text-sm transition shadow">
+                        GitHubリポジトリを開く
+                    </a>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <h4 class="font-bold text-gray-800 mb-2 flex items-center">
+                            📜 ガイドライン
+                        </h4>
+                        <p class="text-xs text-gray-500 leading-relaxed mb-4">
+                            中級コースを進めるにあたっての運用ルールをいつでも確認できます。
+                        </p>
+                    </div>
+                    <a href="{{ route('courses.intermediate.rules') }}" class="block text-center bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 px-4 rounded-lg text-sm transition shadow">
+                        中級コースの運用ルール
+                    </a>
+                </div>
+            </div>
+
             <div class="bg-gradient-to-r from-orange-50 to-amber-50 p-6 rounded-xl border border-orange-200 shadow-sm">
                 <h3 class="text-md font-bold text-orange-800 mb-4 flex items-center">
                     実務タスク完了ノルマ状況

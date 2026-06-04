@@ -15,7 +15,13 @@ class IntermediateTask extends Model
         'description',
         'image_path',
         'status',
+        'user_id',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     /**
      * 完了したユーザーとのリレーション

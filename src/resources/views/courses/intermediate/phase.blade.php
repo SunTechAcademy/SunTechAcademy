@@ -54,7 +54,10 @@
                                     {{ Str::limit($task->description, 90, '...') }}
                                 </p>
                                 <div class="mt-4 pt-3 border-t border-gray-100 flex justify-between items-center text-xs font-bold">
-                                    <span class="text-gray-400">{{ $task->created_at->format('Y/m/d') }}</span>
+                                    <div class="flex flex-col text-gray-400 font-normal space-y-0.5">
+                                        <span>日: {{ $task->created_at->format('Y/m/d') }}</span>
+                                        <span class="text-gray-500 font-semibold">作: {{ $task->user->name ?? '不明' }}</span>
+                                    </div>
                                     <span class="text-orange-500 group-hover:underline">詳細要件・着手 →</span>
                                 </div>
                             </div>

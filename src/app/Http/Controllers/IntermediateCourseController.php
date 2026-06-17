@@ -18,6 +18,15 @@ class IntermediateCourseController extends Controller
     }
 
     /**
+     * URLまとめ画面の表示用メソッドを追加
+     */
+    public function documents()
+    {
+        $urls = $this->getDocumentUrls();
+        return view('courses.intermediate.documents', compact('urls'));
+    }
+
+    /**
      * 中級コース ダッシュボード（大項目8個の一覧、ノルマ進捗）
      */
     public function index()
@@ -31,8 +40,8 @@ class IntermediateCourseController extends Controller
             ->toArray();
 
         // ログインユーザーの完了済みタスク数をフェーズごとに集計
-        // $completedCounts = $user->completedIntermediateTasks()
         $completedCounts = $user->completedIntermediateTasks()
+            ->where('status', 'completed')
             ->select('phase', \DB::raw('count(*) as total'))
             ->groupBy('phase')
             ->pluck('total', 'phase')
@@ -40,14 +49,16 @@ class IntermediateCourseController extends Controller
 
         $phases = IntermediateTask::phaseLabels();
         $definitions = IntermediateTask::phaseDefinitions();
+        // 各カードへ渡す用のURLリストを取得
+        $urls = $this->getDocumentUrls();
 
         // ノルマ設定
         $norms = [
-            'implementation' => 10,
-            'operation'      => 10,
+            'implementation' => 15,
+            'operation'      => 15,
         ];
 
-        return view('courses.intermediate.index', compact('phases', 'definitions', 'taskCounts', 'completedCounts', 'norms'));
+        return view('courses.intermediate.index', compact('phases', 'definitions', 'taskCounts', 'completedCounts', 'norms', 'urls'));
     }
 
     /**
@@ -61,7 +72,7 @@ class IntermediateCourseController extends Controller
         }
 
         $phaseLabel = $phases[$phase];
-        $tasks = IntermediateTask::where('phase', $phase)->with('user')->get();
+        $tasks = IntermediateTask::where('phase', $phase)->with(['user', 'completedUsers'])->get();
         
         return view('courses.intermediate.phase', compact('tasks', 'phaseLabel', 'phase'));
     }
@@ -71,12 +82,52 @@ class IntermediateCourseController extends Controller
      */
     public function showTask($id)
     {
-        $task = IntermediateTask::with('user')->findOrFail($id);
+        $task = IntermediateTask::with(['user', 'completedUsers'])->findOrFail($id);
         $phases = IntermediateTask::phaseLabels();
 
         $isCompleted = ($task->status === 'completed');
+        $isAssigned = ($task->status === 'assigned');
+        $isMyTask = $task->completedUsers->contains(Auth::id());
 
-        return view('courses.intermediate.show', compact('task', 'phases', 'isCompleted'));
+        return view('courses.intermediate.show', compact('task', 'phases', 'isCompleted', 'isAssigned', 'isMyTask'));
+    }
+
+    /**
+     * タスクの担当登録処理
+     */
+    public function assignTask($id)
+    {
+        $user = Auth::user();
+        $task = IntermediateTask::findOrFail($id);
+
+        // 未対応（incomplete）の場合のみ担当になれる
+        if ($task->status === 'incomplete') {
+            // DBのタスクステータスを「担当中」に変更
+            $task->update(['status' => 'assigned']);
+            
+            // 中間テーブルにログインユーザーを紐づける（担当者にする）
+            $user->completedIntermediateTasks()->syncWithoutDetaching([$id => ['completed_at' => now()]]);
+        }
+
+        return redirect()->route('courses.intermediate.show_task', ['id' => $task->id])
+            ->with('success', 'このタスクの担当になりました！実装を進めていきましょう。');
+    }
+
+    /**
+     * 管理用のURL配列を返すプライベートメソッドを末尾に追記
+     */
+    private function getDocumentUrls()
+    {
+        return [
+            'requirement'      => 'https://docs.google.com/spreadsheets/d/1lQxU8IBmf1GfjkClqQQp6hD-M6dntvdAfzwjr4Eo3qQ/edit?usp=sharing',
+            'basic_design'     => 'https://docs.google.com/spreadsheets/d/1x6SHg0qwRfukNVU4Qsq-WLAXCAfl16xv0I8B5GnxaGE/edit?usp=sharing',
+            'detail_design'    => 'https://docs.google.com/spreadsheets/d/1ZkaXjU1WRSRLrXGmGrVvoZprGCaZ6hCeeUVGCj_pGLI/edit?usp=sharing',
+            'unit_test'        => 'https://docs.google.com/spreadsheets/d/1Dfh6Y66O_K1uGAaHmcM1wuRL2-OUCDomP9gfBGoC4jo/edit?usp=sharing',
+            'integration_test' => 'https://docs.google.com/spreadsheets/d/1K8XcPXTwwQtl90P6GBwBqXrbCUE4bYvByi2m2GvR5_Y/edit?usp=sharing',
+            'system_test'      => 'https://docs.google.com/spreadsheets/d/1zTgtF7cAZDetnEPrRV99Kwkq_dnt012_tqJokExMHAI/edit?usp=sharing',
+            'er_diagram'       => 'https://bevel-street-08d.notion.site/ER-38005bbda9f280d29c68ecec180547c9?pvs=143',
+            'db_definition'    => 'https://docs.google.com/spreadsheets/d/10j5T6Ro7UohA8_riikzBmaP92VKGd0Jz5fbldh1ApVI/edit?usp=sharing',
+        ];
     }
 
     /**
@@ -87,12 +138,14 @@ class IntermediateCourseController extends Controller
         $user = Auth::user();
         $task = IntermediateTask::findOrFail($id);
 
-        // 重複登録を防ぎつつ、中間テーブルに同期（トグルではなく、完了登録を維持）
-        // $user->completedIntermediateTasks()->syncWithoutDetaching([$id => ['completed_at' => now()]]);
-
-        $task->update(['status' => 'completed']);
-
-        $user->completedIntermediateTasks()->syncWithoutDetaching([$id => ['completed_at' => now()]]);
+        // 担当中かつ、自分が担当者の場合のみ完了できるようにガード
+        if ($task->status === 'assigned' && $task->completedUsers->contains($user->id)) {
+            // DBのタスクステータスを「完了」に変更
+            $task->update(['status' => 'completed']);
+            
+            // 中間テーブルの完了日時を更新
+            $user->completedIntermediateTasks()->updateExistingPivot($id, ['completed_at' => now()]);
+        }
 
         return redirect()->route('courses.intermediate.phase', ['phase' => $task->phase])
             ->with('success', 'タスクを完了にしました！');

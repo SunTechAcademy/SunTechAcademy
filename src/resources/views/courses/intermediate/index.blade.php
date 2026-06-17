@@ -19,33 +19,22 @@
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-between">
-                    <div>
-                        <h4 class="font-bold text-gray-800 mb-2 flex items-center">
-                            💻 環境構築はこちら
-                        </h4>
-                        <p class="text-xs text-gray-500 leading-relaxed mb-4">
-                            READMEを確認しながら環境構築をしてから実務経験を学んでいきましょう。
-                        </p>
-                    </div>
-                    <a href="https://github.com/SunTechAcademy/SunTechAcademy" target="_blank" rel="noopener noreferrer" class="block text-center bg-gray-800 hover:bg-gray-900 text-white font-bold py-2.5 px-4 rounded-lg text-sm transition shadow">
-                        GitHubリポジトリを開く
-                    </a>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6"> <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-between">
+                    <div><h4 class="font-bold text-gray-800 mb-2 flex items-center">💻 環境構築はこちら</h4>
+                    <p class="text-xs text-gray-500 leading-relaxed mb-4">READMEを確認しながら環境構築をしてから実務経験を学んでいきましょう。</p></div>
+                    <a href="https://github.com/SunTechAcademy/SunTechAcademy" target="_blank" rel="noopener noreferrer" class="block text-center bg-gray-800 hover:bg-gray-900 text-white font-bold py-2.5 px-4 rounded-lg text-sm transition shadow">GitHubリポジトリを開く</a>
                 </div>
 
                 <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-between">
-                    <div>
-                        <h4 class="font-bold text-gray-800 mb-2 flex items-center">
-                            📜 ガイドライン
-                        </h4>
-                        <p class="text-xs text-gray-500 leading-relaxed mb-4">
-                            中級コースを進めるにあたっての運用ルールをいつでも確認できます。
-                        </p>
-                    </div>
-                    <a href="{{ route('courses.intermediate.rules') }}" class="block text-center bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 px-4 rounded-lg text-sm transition shadow">
-                        中級コースの運用ルール
-                    </a>
+                    <div><h4 class="font-bold text-gray-800 mb-2 flex items-center">📝 設計書・ドキュメント</h4>
+                    <p class="text-xs text-gray-500 leading-relaxed mb-4">要件定義書や基本設計書、ER図など、すべてのドキュメントへのリンクが綺麗にまとまっています。</p></div>
+                    <a href="{{ route('courses.intermediate.documents') }}" class="block text-center bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-4 rounded-lg text-sm transition shadow">ドキュメント一覧を見る</a>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-between">
+                    <div><h4 class="font-bold text-gray-800 mb-2 flex items-center">📜 ガイドライン</h4>
+                    <p class="text-xs text-gray-500 leading-relaxed mb-4">中級コースを進めるにあたっての運用ルールをいつでも確認できます。</p></div>
+                    <a href="{{ route('courses.intermediate.rules') }}" class="block text-center bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 px-4 rounded-lg text-sm transition shadow">中級コースの運用ルール</a>
                 </div>
             </div>
 
@@ -85,13 +74,15 @@
 
             <div>
                 <h3 class="text-lg font-bold text-gray-700 mb-6">業務フェーズを選択してください</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     @foreach($phases as $key => $label)
                         @php
                             $totalTasks = $taskCounts[$key] ?? 0;
                             $userCompleted = $completedCounts[$key] ?? 0;
                         @endphp
-                        <a href="{{ route('courses.intermediate.phase', ['phase' => $key]) }}" class="flex flex-col bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md hover:border-orange-400 transition-all p-5 group">
+                        
+                        <div class="flex flex-col bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md hover:border-orange-400 transition-all p-5 relative group">
+                            
                             <div class="flex justify-between items-start mb-2">
                                 <h4 class="font-bold text-base text-gray-900 group-hover:text-orange-600 transition-colors">
                                     {{ $label }}
@@ -100,13 +91,18 @@
                                     {{ $userCompleted }} / {{ $totalTasks }} 完了
                                 </span>
                             </div>
+                            
                             <p class="text-xs text-gray-500 leading-relaxed flex-grow mt-1">
                                 <span class="font-semibold text-gray-700">定義:</span> {{ $definitions[$key] }}
                             </p>
-                            <div class="mt-4 pt-3 border-t border-gray-100 text-right text-xs font-bold text-orange-500 group-hover:translate-x-1 transition-transform">
-                                タスク一覧を見る →
+
+                            <div class="mt-4 pt-3 border-t border-gray-100 text-right">
+                                <a href="{{ route('courses.intermediate.phase', ['phase' => $key]) }}" class="inline-block text-xs font-bold text-orange-500 hover:text-orange-700 group-hover:translate-x-1 transition-all after:absolute after:inset-0">
+                                    タスク一覧を見る →
+                                </a>
                             </div>
-                        </a>
+                            
+                        </div>
                     @endforeach
                 </div>
             </div>

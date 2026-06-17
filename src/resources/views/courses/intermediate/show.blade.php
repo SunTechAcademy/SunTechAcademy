@@ -26,15 +26,24 @@
                         <span class="px-3 py-1 bg-orange-100 text-orange-800 text-xs font-bold rounded-full">
                             {{ $phases[$task->phase] }}フェーズ
                         </span>
+                        
                         @if($isCompleted)
                             <span class="px-3 py-1 bg-green-100 text-green-800 text-xs font-bold rounded-full">
-                                ✓ この実務タスクは完了しています
+                                ✓ 完了（担当者: {{ $task->completedUsers->first()->name ?? '不明' }}）
+                            </span>
+                        @elseif($isAssigned)
+                            <span class="px-3 py-1 bg-amber-100 text-amber-800 text-xs font-bold rounded-full">
+                                ⏳ 担当中（担当者: {{ $task->completedUsers->first()->name ?? '不明' }}）
                             </span>
                         @else
                             <span class="px-3 py-1 bg-gray-100 text-gray-600 text-xs font-bold rounded-full">
-                                ⏳ 未完了（取り組み中）
+                                💤 未対応（担当者なし）
                             </span>
                         @endif
+                        
+                        <span class="text-xs text-gray-500 pl-2">
+                            作成者: <strong class="text-gray-700">{{ $task->user->name ?? '不明' }}</strong>
+                        </span>
                     </div>
 
                     <div>
@@ -58,13 +67,26 @@
                             @endif
                         </div>
                         <div>
-                            @if(!$isCompleted)
-                                <form action="{{ route('courses.intermediate.complete_task', ['id' => $task->id]) }}" method="POST">
+                            @if($task->status === 'incomplete')
+                                <form action="{{ route('courses.intermediate.assign_task', ['id' => $task->id]) }}" method="POST">
                                     @csrf
-                                    <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg shadow-md hover:shadow transition-all text-sm">
-                                        この実務タスクを完了状態にする
+                                    <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 px-8 rounded-lg shadow-md hover:shadow transition-all text-sm">
+                                        このタスクを担当する
                                     </button>
                                 </form>
+                            @elseif($task->status === 'assigned')
+                                @if($isMyTask)
+                                    <form action="{{ route('courses.intermediate.complete_task', ['id' => $task->id]) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg shadow-md hover:shadow transition-all text-sm">
+                                            この実務タスクを完了状態にする
+                                        </button>
+                                    </form>
+                                @else
+                                    <button disabled class="bg-gray-200 text-gray-400 font-bold py-3 px-8 rounded-lg text-sm cursor-not-allowed">
+                                        他のユーザーが担当中です
+                                    </button>
+                                @endif
                             @else
                                 <button disabled class="bg-gray-200 text-gray-400 font-bold py-3 px-8 rounded-lg text-sm cursor-not-allowed">
                                     完了済みタスクです

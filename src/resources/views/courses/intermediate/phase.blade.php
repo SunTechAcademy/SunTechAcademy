@@ -57,6 +57,7 @@
                                     <div class="flex flex-col text-gray-400 font-normal space-y-0.5">
                                         <span>日: {{ $task->created_at->format('Y/m/d') }}</span>
                                         <span class="text-gray-500 font-semibold">作: {{ $task->user->name ?? '不明' }}</span>
+                                        <span class="text-emerald-600 font-bold">担: {{ $task->completedUsers->first()->name ?? '（未対応）' }}</span>
                                     </div>
                                     <span class="text-orange-500 group-hover:underline">詳細要件・着手 →</span>
                                 </div>

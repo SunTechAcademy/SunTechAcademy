@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 
 class IntermediateTask extends Model
 {
@@ -28,9 +29,8 @@ class IntermediateTask extends Model
      */
     public function completedUsers()
     {
-        return $this->belongsToMany(User::class, 'intermediate_task_user')
-                ->withPivot('completed_at')
-                ->withTimestamps();
+        return $this->belongsToMany(User::class, 'intermediate_task_user', 'intermediate_task_id', 'user_id')
+                    ->withTimestamps();
     }
 
     /**
@@ -47,6 +47,7 @@ class IntermediateTask extends Model
             'integration_test' => '結合テスト',
             'system_test'      => '総合テスト',
             'operation'        => '保守運用',
+            'suggestion'       => '要望改善提案',
         ];
     }
 
@@ -64,6 +65,7 @@ class IntermediateTask extends Model
             'integration_test' => '複数の機能を繋げたら正しく動くか',
             'system_test'      => 'システム全体をユーザー目線で使って問題ないか',
             'operation'        => 'リリース後のシステムを安定稼働させ、障害対応や改善を行います。',
+            'suggestion'       => 'システムのエラー報告や、今後やっていきたい機能の追加提案を行います。',
         ];
     }
 }

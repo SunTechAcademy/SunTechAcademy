@@ -151,6 +151,8 @@ docker compose up -d
 docker compose down
 ```
 
+コンテナが停止し、PCのリソース（メモリ・CPU）が解放されます。
+
 ---
 
 ## ローカル環境で初級コースを全て完了させる
@@ -170,5 +172,3 @@ NOW() AS completed_at
 FROM chapters
 WHERE id BETWEEN 5 AND 143;
 ```
-```
-コンテナが停止し、PCのリソース（メモリ・CPU）が解放されます。

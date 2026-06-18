@@ -154,10 +154,13 @@ docker compose down
 ---
 
 ##ローカル環境で初級コースを全て完了させる
+
 手作業で完了させると時間がかかるためSQL文で完了させる
 ローカル環境のアカウントは以下
-メールアドレス：test@test.com
-パスワード：Tomoya0218
+
+- メールアドレス：test@test.com
+- パスワード：Tomoya0218
+
 ```bash
 INSERT INTO chapter_user (user_id, chapter_id, completed_at)
 SELECT

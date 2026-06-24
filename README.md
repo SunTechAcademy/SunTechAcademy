@@ -150,4 +150,25 @@ docker compose up -d
 ```bash
 docker compose down
 ```
+
 コンテナが停止し、PCのリソース（メモリ・CPU）が解放されます。
+
+---
+
+## ローカル環境で初級コースを全て完了させる
+
+手作業で完了させると時間がかかるためSQL文で完了させる
+ローカル環境のアカウントは以下
+
+- メールアドレス：test@test.com
+- パスワード：Tomoya0218
+
+```bash
+INSERT INTO chapter_user (user_id, chapter_id, completed_at)
+SELECT
+1 AS user_id,
+id AS chapter_id,
+NOW() AS completed_at
+FROM chapters
+WHERE id BETWEEN 5 AND 143;
+```

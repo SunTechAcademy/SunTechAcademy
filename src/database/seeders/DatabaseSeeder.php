@@ -38,7 +38,7 @@ class DatabaseSeeder extends Seeder
         // --- 一般ユーザーデータの作成 ---
         $user = User::create([
             'id' => 1,
-            'name' => '鈴木智哉',
+            'name' => 'テストアカウント',
             'email' => 'test@test.com',
             'password' => Hash::make('Tomoya0218'),
         ]);

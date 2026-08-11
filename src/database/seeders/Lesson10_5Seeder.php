@@ -30,7 +30,7 @@ class Lesson10_5Seeder extends Seeder
             クラスの宣言部分には最初に <code>class クラス名 {...}</code> と書きます。これが<strong>「設計図の紙」</strong>だと思ってください。
         </p>
         
-        <div class="bg-gray-900 rounded-xl p-6 font-mono text-sm text-white shadow-lg">
+        <div class="bg-gray-900 rounded-xl p-6 font-mono text-sm text-white shadow-lg overflow-x-auto">
             <p class="text-gray-500 mb-2">// クラスの宣言方法（まだ何のPHPファイルにも書かないでください）</p>
 <pre><code>class Slime {
     // オブジェクトの変数（値）＝ プロパティ
@@ -70,7 +70,7 @@ class Lesson10_5Seeder extends Seeder
             設計図（クラス）から実体を作るには <strong>new クラス名()</strong> という命令を使います。これを「インスタンス化」と呼びます。
         </p>
 
-        <div class="bg-gray-900 rounded-xl p-6 font-mono text-sm text-white">
+        <div class="bg-gray-900 rounded-xl p-6 font-mono text-sm text-white overflow-x-auto">
 <pre><code>// インスタンスの生成と、変数への代入
 $slime_A = new Slime();
 $slime_B = new Slime();
@@ -100,8 +100,8 @@ $slime_B->attack('主人公');</code></pre>
     <section class="space-y-6">
         <h4 class="text-xl font-bold text-gray-800">一度、コードを書いて実行してみましょう</h4>
         <div class="bg-gray-800 rounded-t-lg px-4 py-2 text-white text-xs font-mono">test_class.php</div>
-        <div class="bg-gray-900 rounded-b-xl p-6 font-mono text-sm text-white">
-<pre><code><?php
+        <div class="bg-gray-900 rounded-b-xl p-6 font-mono text-sm text-white overflow-x-auto">
+<pre><code>&lt;?php
 class Slime {
     public $type = 'スライム';
     public $hp = 10;
@@ -189,7 +189,7 @@ print_r($slime_A);</code></pre>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="bg-gray-100 p-4 rounded-lg">
                 <p class="text-xs font-bold text-gray-500 mb-2 uppercase">Traditional Way (if check)</p>
-                <div class="bg-gray-900 text-white p-3 rounded font-mono text-xs">
+                <div class="bg-gray-900 text-white p-3 rounded font-mono text-xs overflow-x-auto">
 <pre><code>if ($slime !== null) {
     $slime->attack('主人公');
 }</code></pre>
@@ -197,7 +197,7 @@ print_r($slime_A);</code></pre>
             </div>
             <div class="bg-gray-100 p-4 rounded-lg">
                 <p class="text-xs font-bold text-blue-500 mb-2 uppercase">Nullsafe Way</p>
-                <div class="bg-gray-900 text-white p-3 rounded font-mono text-xs">
+                <div class="bg-gray-900 text-white p-3 rounded font-mono text-xs overflow-x-auto">
 <pre><code>// 1行で安全に実行
 $slime?->attack('主人公');</code></pre>
                 </div>

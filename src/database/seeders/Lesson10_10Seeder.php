@@ -83,7 +83,7 @@ class Lesson10_10Seeder extends Seeder
 
     <section class="space-y-6">
         <h4 class="text-xl font-bold text-gray-800 italic">アクセス権の具体例</h4>
-        <div class="bg-gray-900 rounded-xl p-6 font-mono text-xs text-white overflow-x-auto shadow-lg">
+        <div class="bg-gray-900 rounded-xl p-6 font-mono text-xs text-white overflow-x-auto shadow-lg overflow-x-auto">
 <pre><code>class A {
     public $public = 'public';
     protected $protected = 'protected';

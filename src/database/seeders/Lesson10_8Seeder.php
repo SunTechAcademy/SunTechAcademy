@@ -90,8 +90,8 @@ class B extends C {
         
 
         <div class="bg-gray-800 rounded-t-lg px-4 py-2 text-white text-xs font-mono mt-6">test_class.php</div>
-        <div class="bg-gray-900 rounded-b-xl p-6 font-mono text-sm text-white max-h-96 overflow-y-auto">
-<pre><code><?php
+        <div class="bg-gray-900 rounded-b-xl p-6 font-mono text-sm text-white max-h-96">
+<pre><code>&lt;?php
 // ---- 親クラス（共通部分） ----
 class Character {
     public static $type = '';

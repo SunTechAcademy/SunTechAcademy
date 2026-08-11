@@ -35,7 +35,7 @@ class Lesson10_11Seeder extends Seeder
         </p>
         
         <div class="bg-gray-900 rounded-xl p-6 font-mono text-sm text-white shadow-lg overflow-x-auto">
-<pre><code><?php
+<pre><code>&lt;?php
 class MethodChain {
     public $result = 1;
 

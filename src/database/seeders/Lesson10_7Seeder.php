@@ -61,9 +61,9 @@ class Lesson10_7Seeder extends Seeder
             クラス変数やクラスメソッドを呼び出すときは、アロー演算子 <code>-></code> ではなく、<strong>スコープ定義演算子 <code>::</code></strong>（コロンが2個）を使います。
         </p>
         
-        <div class="bg-gray-900 rounded-xl p-6 font-mono text-sm text-white shadow-lg">
+        <div class="bg-gray-900 rounded-xl p-6 font-mono text-sm text-white shadow-lg overflow-x-auto">
             <p class="text-gray-400 mb-2">// test_class.php を書き換えて実行しましょう</p>
-<pre><code><?php
+<pre><code>&lt;?php
 class Slime {
     public static $type = 'スライム'; // クラス変数
     public $suffix = '';

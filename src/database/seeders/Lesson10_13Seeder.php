@@ -34,8 +34,8 @@ class Lesson10_13Seeder extends Seeder
         <p class="text-gray-700">まずは共通部分を担う <code>Character</code> クラス専用のファイルを作ります。</p>
         
         <div class="bg-gray-800 rounded-t-lg px-4 py-2 text-white text-xs font-mono">character.php</div>
-        <div class="bg-gray-900 rounded-b-xl p-6 font-mono text-sm text-white overflow-x-auto shadow-lg">
-<pre><code><?php
+        <div class="bg-gray-900 rounded-b-xl p-6 font-mono text-sm text-white overflow-x-auto shadow-lg overflow-x-auto">
+<pre><code>&lt;?php
 class Character {
     public static $type = '';
     public $suffix = '';
@@ -89,8 +89,8 @@ class Character {
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div>
                 <div class="bg-gray-800 rounded-t-lg px-4 py-2 text-white text-xs font-mono">slime.php</div>
-                <div class="bg-gray-900 rounded-b-xl p-4 font-mono text-xs text-white shadow-md">
-<pre><code><?php
+                <div class="bg-gray-900 rounded-b-xl p-4 font-mono text-xs text-white shadow-md overflow-x-auto">
+<pre><code>&lt;?php
 require_once 'character.php';
 
 class Slime extends Character {
@@ -103,8 +103,8 @@ class Slime extends Character {
             </div>
             <div>
                 <div class="bg-gray-800 rounded-t-lg px-4 py-2 text-white text-xs font-mono">hero.php</div>
-                <div class="bg-gray-900 rounded-b-xl p-4 font-mono text-xs text-white shadow-md">
-<pre><code><?php
+                <div class="bg-gray-900 rounded-b-xl p-4 font-mono text-xs text-white shadow-md overflow-x-auto">
+<pre><code>&lt;?php
 require_once 'character.php';
 
 class Hero extends Character {
@@ -127,8 +127,8 @@ class Hero extends Character {
         </p>
 
         <div class="bg-gray-800 rounded-t-lg px-4 py-2 text-white text-xs font-mono">game.php</div>
-        <div class="bg-gray-900 rounded-b-xl p-6 font-mono text-sm text-white shadow-lg">
-<pre><code><?php
+        <div class="bg-gray-900 rounded-b-xl p-6 font-mono text-sm text-white shadow-lg overflow-x-auto">
+<pre><code>&lt;?php
 require_once 'hero.php';
 require_once 'slime.php';
 

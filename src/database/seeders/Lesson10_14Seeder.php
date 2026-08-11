@@ -112,7 +112,7 @@ $character = new Character(...);    // namespace が同じなので正解 (\Tech
 
     <div class="bg-gray-100 p-4 rounded mb-6">
         <p class="font-bold mb-2 text-blue-600">character.php</p>
-        <pre class="bg-gray-800 text-white p-4 rounded shadow-inner"><code>&lt;?php
+        <pre class="bg-gray-800 text-white p-4 rounded shadow-inner overflow-x-auto"><code>&lt;?php
 
 namespace TechAcademy\RPG\Characters;
 

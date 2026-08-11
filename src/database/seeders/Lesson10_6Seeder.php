@@ -43,8 +43,8 @@ class Lesson10_6Seeder extends Seeder
 
         <div class="space-y-4">
             <p class="font-bold text-gray-700">test_class.php を以下のように上書きして実行してみましょう。</p>
-            <div class="bg-gray-900 rounded-xl p-6 font-mono text-sm text-white">
-<pre><code><?php
+            <div class="bg-gray-900 rounded-xl p-6 font-mono text-sm text-white overflow-x-auto">
+<pre><code>&lt;?php
 class Slime {
     public $type = 'スライム';
     public $suffix = ''; // AやBなどの接尾辞を入れる箱
@@ -181,7 +181,7 @@ $slime_A->power = 999; // ERROR: readonlyなので書き換え不可！</code></
                 クラス定義のひな形
             </div>
             <div class="p-6 bg-gray-900 font-mono text-sm text-white">
-<pre><code><?php
+<pre><code>&lt;?php
 class Sample {
     public $value1 = '';
     

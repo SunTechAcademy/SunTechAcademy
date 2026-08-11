@@ -37,7 +37,7 @@ class Lesson10_12Seeder extends Seeder
 
         <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
             <p class="font-bold text-gray-800 mb-4">test_class.php の一番下に、次の2行を追記して実行してみましょう。</p>
-            <div class="bg-gray-900 rounded-lg p-6 font-mono text-sm text-white shadow-lg">
+            <div class="bg-gray-900 rounded-lg p-6 font-mono text-sm text-white shadow-lg overflow-x-auto">
 <pre><code>// ...（これまでのコードの続き）
 
 print get_class($slime_A) . PHP_EOL;

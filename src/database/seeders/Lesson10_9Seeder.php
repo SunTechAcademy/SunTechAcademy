@@ -42,7 +42,7 @@ class Lesson10_9Seeder extends Seeder
 
         <div class="bg-gray-50 p-6 rounded-xl border border-gray-200 space-y-4">
             <p class="text-sm font-bold text-gray-500 uppercase">おさらい：親クラスでの定義</p>
-            <div class="bg-gray-900 text-white p-4 rounded font-mono text-xs">
+            <div class="bg-gray-900 text-white p-4 rounded font-mono text-xs overflow-x-auto">
 <pre><code>// Characterクラス
 public static $type = '';
 static function description() {
@@ -51,7 +51,7 @@ static function description() {
             </div>
             
             <p class="text-sm font-bold text-gray-500 uppercase">おさらい：子クラスでの上書き（オーバーライド）</p>
-            <div class="bg-gray-900 text-white p-4 rounded font-mono text-xs">
+            <div class="bg-gray-900 text-white p-4 rounded font-mono text-xs overflow-x-auto">
 <pre><code>// Slimeクラス
 public static $type = 'スライム';
 static function description() {
@@ -100,7 +100,7 @@ public const TYPE = 'スライム'; // Fatal error!</code></pre>
         </div>
 
         <p class="text-gray-700">これにより、インスタンス生成時に引数の数を変えることができます。</p>
-        <div class="bg-gray-900 text-white p-6 rounded-xl font-mono text-sm">
+        <div class="bg-gray-900 text-white p-6 rounded-xl font-mono text-sm overflow-x-auto">
 <pre><code>// 敵スライムは個体名が必要なので3つ渡す
 $slime_A = new Slime(10, 3, 'A');
 

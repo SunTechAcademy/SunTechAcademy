@@ -81,9 +81,77 @@ class Lesson11_3Seeder extends Seeder
                 <li><strong>MySQL Database</strong>、<strong>ProFTPD</strong>、<strong>Apache Web Server</strong> を順番に選択し、<strong>Start</strong> ボタンをクリックします。</li>
                 <li>すべてのステータスが<strong>緑色</strong>になれば正常に起動しています。</li>
             </ol>
-            <div class="mt-6 border border-green-200 rounded-xl overflow-hidden bg-white">
-                <img src="/images/Lesson11-3.png" alt="XAMPP起動画面" class="w-full h-auto">
+            <div class="mt-6">
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <button type="button" class="os-switch-btn active" data-os="mac">Mac版</button>
+                    <button type="button" class="os-switch-btn" data-os="windows">Windows版</button>
+                </div>
+
+                <div class="xamp-os-display border border-green-200 rounded-xl overflow-hidden bg-white">
+                    <div data-panel="mac" class="xamp-os-panel">
+                        <img src="/images/Lesson11-3.png" alt="XAMPP起動画面（Mac版）" class="w-full h-auto">
+                    </div>
+                    <div data-panel="windows" class="xamp-os-panel hidden">
+                        <img src="/images/Lesson11-8.png" alt="XAMPP起動画面（Windows版）">
+                    </div>
+                </div>
             </div>
+
+            <style>
+                .os-switch-btn {
+                    border: 1px solid #9ad6b6;
+                    background: #f6fff8;
+                    color: #0f766e;
+                    padding: 0.5rem 1rem;
+                    border-radius: 9999px;
+                    font-weight: 700;
+                    transition: all 0.2s ease;
+                }
+                .os-switch-btn.active {
+                    background: #1f9d86;
+                    color: white;
+                    border-color: #1f9d86;
+                    box-shadow: 0 2px 8px rgba(31, 157, 134, 0.25);
+                }
+                .xamp-os-panel.hidden {
+                    display: none;
+                }
+                .xamp-os-display {
+                    position: relative;
+                    aspect-ratio: 680 / 488;
+                }
+                .xamp-os-panel {
+                    position: absolute;
+                    inset: 0;
+                }
+                .xamp-os-panel img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: contain;
+                }
+            </style>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const switches = document.querySelectorAll('.os-switch-btn');
+                    const panels = document.querySelectorAll('[data-panel]');
+
+                    switches.forEach(function (button) {
+                        button.addEventListener('click', function () {
+                            const target = this.dataset.os;
+
+                            switches.forEach(function (btn) {
+                                btn.classList.toggle('active', btn === button);
+                            });
+
+                            panels.forEach(function (panel) {
+                                const isTarget = panel.dataset.panel === target;
+                                panel.classList.toggle('hidden', !isTarget);
+                            });
+                        });
+                    });
+                });
+            </script>
         </div>
     </section>
 

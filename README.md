@@ -172,3 +172,47 @@ NOW() AS completed_at
 FROM chapters
 WHERE id BETWEEN 5 AND 143;
 ```
+
+## PHPセキュリティ更新（2026-11-07 / PHP2shell）
+
+CVE-2026-109618 / CVE-2026-109619 はPHP本体の更新が必要です。
+LaravelやComposerライブラリの更新だけでは解消しません。
+修正版の最低バージョンは 8.2.35 / 8.3.36 / 8.4.27 / 8.5.12 です。
+
+- ローカルDockerは `php:8.3.36-fpm-bookworm` を使用します。
+- Fly.ioは既存のPHP 8.2系を維持し、ビルド時に `scripts/check-php-security.php` で8.2.35以上を確認します。古いAPTキャッシュを再利用しないよう、更新時はキャッシュなしでビルドしてください。
+- PHP公式の追加推奨に従い、ネイティブの `session.upload_progress.enabled` を無効化しています。通常のファイルアップロードは維持されます。この設定単独で脆弱性が解消するわけではありません。
+
+### ローカルへの適用・確認
+
+プロジェクト直下で実行します。DBの削除・再作成は不要です。
+
+```bash
+docker compose build --pull app
+docker compose up -d --no-deps app
+docker compose exec -T web nginx -s reload
+docker compose exec -T app php scripts/check-php-security.php
+docker compose exec -T app php-fpm -i
+```
+
+FPMのPHPバージョンと `session.upload_progress.enabled => Off` を確認します。
+コンテナ外のPHP（Homebrewなど）は別の実行環境のため、この操作では更新されません。
+
+### Fly.ioへの適用・確認
+
+公開するソースを確認したうえで、`src` ディレクトリから実行します。
+ビルドだけでは稼働中のサーバーは更新されません。
+
+```bash
+fly deploy --no-cache --app suntechacademy
+fly ssh console --app suntechacademy -C 'php /var/www/html/scripts/check-php-security.php'
+fly ssh console --app suntechacademy -C 'php-fpm -i'
+fly checks list --app suntechacademy
+```
+
+全稼働Machineの更新とFPMワーカーの再起動を確認してください。
+APTが修正版を提供していない場合はビルドが失敗します。バージョンチェックを削除せず、パッケージ供給元を確認してください。
+
+参照：
+- [IPAの注意喚起](https://www.ipa.go.jp/security/security-alert/2026/alert20261022.html)
+- [PHP公式セキュリティ情報](https://www.php.net/index.php)

@@ -44,6 +44,10 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 
+# Fail the build if the package repository still provides a vulnerable PHP.
+COPY scripts/check-php-security.php /usr/local/lib/check-php-security.php
+RUN php /usr/local/lib/check-php-security.php
+
 # 2. Copy config files to proper locations
 COPY .fly/nginx/ /etc/nginx/
 COPY .fly/fpm/ /etc/php/${PHP_VERSION}/fpm/

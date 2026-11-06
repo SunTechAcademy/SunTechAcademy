@@ -1,4 +1,8 @@
-FROM php:8.3-fpm
+FROM php:8.3.36-fpm-bookworm
+
+# Reject runtimes without the PHP2shell security fixes.
+COPY src/scripts/check-php-security.php /usr/local/lib/check-php-security.php
+RUN php /usr/local/lib/check-php-security.php
 
 # 必要なパッケージとPHP拡張モジュールのインストール
 RUN apt-get update && apt-get install -y \

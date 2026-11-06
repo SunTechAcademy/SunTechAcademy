@@ -7,7 +7,6 @@ use App\Models\Lesson;
 use App\Models\Chapter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Carbon\Carbon;
 
 class CourseController extends Controller
 {
@@ -15,17 +14,6 @@ class CourseController extends Controller
     {
         $user = Auth::user();
         
-        // 1. 連続ログイン日数の計算
-        $loginDates = $user->loginHistories()->orderBy('login_date', 'desc')->pluck('login_date')->toArray();
-        $streak = 0;
-        $currentDate = Carbon::today();
-        foreach ($loginDates as $date) {
-            if ($date == $currentDate->format('Y-m-d')) {
-                $streak++;
-                $currentDate->subDay();
-            } else { break; }
-        }
-
         // 2. カリキュラム進捗率の計算 (全チャプター数 / 完了チャプター数)
         $totalChapters = Chapter::count();
         $completedChaptersCount = $user->chapters()->count();
@@ -65,7 +53,7 @@ class CourseController extends Controller
             }
         }
 
-        return view('courses.beginner', compact('streak', 'progress', 'totalAssignments', 'completedAssignments', 'lessons'));
+        return view('courses.beginner', compact('progress', 'totalAssignments', 'completedAssignments', 'lessons'));
     }
 
     public function showLesson($id)
@@ -89,10 +77,27 @@ class CourseController extends Controller
 
     public function completeChapter(Request $request, $chapterId)
     {
-        Auth::user()->chapters()->toggle([
+        $chapter = Chapter::with('lesson.chapters')->findOrFail($chapterId);
+        $user = Auth::user();
+        $result = $user->chapters()->toggle([
             $chapterId => ['completed_at' => now()]
         ]);
-        
-        return redirect(url()->previous() . "#chapter-{$chapterId}");
+
+        $response = redirect(route('lessons.show', $chapter->lesson_id) . "#chapter-{$chapterId}");
+        if (!empty($result['attached'])) {
+            $chapterIds = $chapter->lesson->chapters->pluck('id');
+            $completed = $user->chapters()->whereIn('chapters.id', $chapterIds)->count();
+            $response->with('chapterCelebration', [
+                'lesson_id' => $chapter->lesson_id,
+                'lesson_number' => $chapter->lesson->sort_order,
+                'chapter_number' => $chapter->sort_order,
+                'chapter_title' => $chapter->title,
+                'completed' => $completed,
+                'total' => $chapterIds->count(),
+                'lesson_complete' => $completed === $chapterIds->count(),
+            ]);
+        }
+
+        return $response;
     }
 }

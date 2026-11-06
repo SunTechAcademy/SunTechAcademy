@@ -1,47 +1,29 @@
-<x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
-
+<x-login-layout>
+    <h2 id="login-title">ログイン</h2>
+    <p class="login-intro">おかえりなさい。学びの続きを始めましょう。</p>
+    @if(session('status'))
+        <div class="login-status" role="status">{{ session('status') }}</div>
+    @endif
     <form method="POST" action="{{ route('login') }}">
         @csrf
-
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('メールアドレス')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
-
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('パスワード')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                <span class="ms-2 text-sm text-gray-600">{{ __('次回から自動ログイン') }}</span>
-            </label>
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                    {{ __('パスワードをお忘れですか？') }}
-                </a>
+        <div class="login-field">
+            <label for="email">メールアドレス</label>
+            <input id="email" class="login-input" type="email" name="email" value="{{ old('email') }}" required autocomplete="username" placeholder="name@example.com" aria-invalid="{{ $errors->has('email') ? 'true' : 'false' }}" @if($errors->has('email')) aria-describedby="email-errors" @endif>
+            @if($errors->has('email'))
+                <ul id="email-errors" class="login-errors" role="alert">@foreach($errors->get('email') as $message)<li>{{ $message }}</li>@endforeach</ul>
             @endif
-
-            <x-primary-button class="ms-3">
-                {{ __('ログイン') }}
-            </x-primary-button>
         </div>
+        <div class="login-field">
+            <label for="password">パスワード</label>
+            <input id="password" class="login-input" type="password" name="password" required autocomplete="current-password" placeholder="パスワードを入力" aria-invalid="{{ $errors->has('password') ? 'true' : 'false' }}" @if($errors->has('password')) aria-describedby="password-errors" @endif>
+            @if($errors->has('password'))
+                <ul id="password-errors" class="login-errors" role="alert">@foreach($errors->get('password') as $message)<li>{{ $message }}</li>@endforeach</ul>
+            @endif
+        </div>
+        <label for="remember_me" class="login-remember"><input id="remember_me" type="checkbox" name="remember" @checked(old('remember'))><span>次回から自動ログイン</span></label>
+        <button type="submit" class="login-submit">ログインして学習を続ける <span aria-hidden="true">→</span></button>
+        @if (Route::has('password.request'))
+            <p class="login-forgot"><a href="{{ route('password.request') }}">パスワードをお忘れですか？</a></p>
+        @endif
     </form>
-</x-guest-layout>
+</x-login-layout>

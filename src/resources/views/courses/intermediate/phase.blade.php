@@ -10,8 +10,9 @@
         </div>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+    <x-course-page-styles />
+    <div class="course-page is-intermediate">
+        <div class="course-container">
             
             @if(session('success'))
                 <div class="mb-6 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
@@ -29,7 +30,7 @@
                         @php
                             $isCompleted = ($task->status === 'completed');
                         @endphp
-                        <a href="{{ route('courses.intermediate.show_task', ['id' => $task->id]) }}" class="flex flex-col bg-white border {{ $isCompleted ? 'border-green-300 bg-green-50/10' : 'border-gray-200' }} rounded-xl shadow-sm hover:shadow-md transition-all overflow-hidden group relative">
+                        <a href="{{ route('courses.intermediate.show_task', ['id' => $task->id]) }}" class="flex flex-col bg-white border {{ $isCompleted ? 'border-green-300 bg-green-50/10' : 'border-gray-200' }} rounded-2xl shadow-sm hover:shadow-md transition-all overflow-hidden group relative">
                             
                             @if($isCompleted)
                                 <div class="absolute top-2 right-2 bg-green-600 text-white font-bold text-xxs px-2 py-0.5 rounded-full z-10 shadow">
@@ -38,16 +39,16 @@
                             @endif
 
                             @if($task->image_path)
-                                <!-- <img src="{{ asset('storage/' . $task->image_path) }}" class="w-full h-40 object-cover"> -->
-                                 <img src="/storage/{{ $task->image_path }}" class="w-full h-40 object-cover">
+                                <!-- <img src="{{ asset('storage/' . $task->image_path) }}" class="w-full h-40 object-cover" alt="{{ $task->title }}"> -->
+                                 <img src="/storage/{{ $task->image_path }}" class="w-full h-40 object-cover" alt="{{ $task->title }}">
                             @else
-                                <div class="w-full h-40 bg-gray-100 flex items-center justify-center border-b text-gray-400 font-mono text-sm">
-                                    No Assignment Image
+                                <div class="w-full h-40 bg-emerald-50 flex items-center justify-center text-emerald-700 font-mono text-sm">
+                                    BUILD · LEARN · GROW
                                 </div>
                             @endif
 
                             <div class="p-5 flex flex-col flex-grow">
-                                <h4 class="font-bold text-base text-gray-900 mb-2 group-hover:text-orange-600 transition-colors">
+                                <h4 class="font-bold text-base text-gray-900 mb-2 group-hover:text-emerald-700 transition-colors">
                                     {{ $task->title }}
                                 </h4>
                                 <p class="text-xs text-gray-600 line-clamp-3 flex-grow leading-relaxed">
@@ -59,7 +60,7 @@
                                         <span class="text-gray-500 font-semibold">作: {{ $task->user->name ?? '不明' }}</span>
                                         <span class="text-emerald-600 font-bold">担: {{ $task->completedUsers->first()->name ?? '（未対応）' }}</span>
                                     </div>
-                                    <span class="text-orange-500 group-hover:underline">詳細要件・着手 →</span>
+                                    <span class="text-emerald-700 group-hover:underline">詳細要件・着手 →</span>
                                 </div>
                             </div>
                         </a>

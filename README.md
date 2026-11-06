@@ -216,3 +216,19 @@ APTが修正版を提供していない場合はビルドが失敗します。�
 参照：
 - [IPAの注意喚起](https://www.ipa.go.jp/security/security-alert/2026/alert20261022.html)
 - [PHP公式セキュリティ情報](https://www.php.net/index.php)
+
+## Fly.ioの自動起動直後の502対策
+
+自動停止を維持したまま、PHP-FPMのUnixソケットへの接続が成功するまで
+Nginxの起動を待機します（`.fly/start-nginx.sh`）。単なるファイルの存在や
+固定秒数のsleepでは、古いソケットや起動速度の差を判定できません。
+30秒以内に準備できない場合は起動を失敗させ、Supervisorの再試行に委ねます。
+また、Fly.ioのHTTPチェックはLaravelの `/up` を確認します。
+`min_machines_running = 0` のため初回アクセスの起動待ち時間は残りますが、
+今回ログで確認した「FPMのソケット生成前にNginxがリクエストを受ける」問題を防ぎます。
+
+起動待ち処理のテスト（Python 3 / PHP CLIが必要）：
+
+```bash
+python3 src/tests/infrastructure/test_start_nginx.py
+```

@@ -37,6 +37,14 @@ console_command = 'php /var/www/html/artisan tinker'
   min_machines_running = 0
   processes = ['app']
 
+# Route traffic only after nginx, PHP-FPM and Laravel can serve requests.
+[[http_service.checks]]
+  grace_period = '20s'
+  interval = '15s'
+  timeout = '5s'
+  method = 'GET'
+  path = '/up'
+
 [[vm]]
   memory = '256mb'
   cpus = 1

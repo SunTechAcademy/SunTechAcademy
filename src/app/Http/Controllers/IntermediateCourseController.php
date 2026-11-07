@@ -152,40 +152,61 @@ class IntermediateCourseController extends Controller
     }
 
     /**
-     * タスク作成画面（管理者権限限定）
+     * タスク作成画面
      */
+    public function preview(Request $request)
+    {
+        $data = $request->validate(['description' => 'nullable|string|max:100000']);
+        return response()->json(['html' => \App\Support\TaskMarkdown::render($data['description'] ?? '')]);
+    }
+
     public function create()
     {
         $phases = IntermediateTask::phaseLabels();
-        return view('courses.intermediate.create', compact('phases'));
+        $assignees = Auth::user()->isAdmin()
+            ? \App\Models\User::orderBy('name')->get(['id', 'name', 'email'])
+            : collect([Auth::user()]);
+        return view('courses.intermediate.create', compact('phases', 'assignees'));
     }
 
     /**
-     * タスクの保存処理（管理者権限限定）
+     * タスクの保存処理（受講生は本人担当のみ）
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'phase'       => 'required|string',
+        $validated = $request->validate([
+            'assignee_id' => ['required', 'integer', \Illuminate\Validation\Rule::exists('users', 'id'),
+                \Illuminate\Validation\Rule::in(Auth::user()->isAdmin() ? \App\Models\User::pluck('id')->all() : [Auth::id()])],
+            'phase'       => ['required', \Illuminate\Validation\Rule::in(array_keys(IntermediateTask::phaseLabels()))],
             'title'       => 'required|string|max:255',
-            'description' => 'required|string',
-            'image'       => 'nullable|image|max:2048',
+            'description' => 'required|string|max:100000',
+            'images' => 'nullable|array|max:10',
+            'images.*' => 'required|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
+            'description_format' => 'nullable|in:plain,markdown',
         ]);
 
-        $imagePath = null;
-        if ($request->hasFile('image')) {
-            // publicディスクのintermediate_tasksフォルダへ保存
-            $imagePath = $request->file('image')->store('intermediate_tasks', 'public');
+        $paths = [];
+        try {
+            foreach ($request->file('images', []) as $image) {
+                $paths[] = $image->store('intermediate_tasks', 'public');
+            }
+            \Illuminate\Support\Facades\DB::transaction(function () use ($request, $validated, $paths) {
+                $task = IntermediateTask::create([
+                    'phase' => $validated['phase'],
+                    'title' => $validated['title'],
+                    'description' => $validated['description'],
+                    'description_format' => $validated['description_format'] ?? 'plain',
+                    'image_paths' => $paths,
+                    'image_path' => $paths[0] ?? null,
+                    'status' => 'assigned',
+                    'user_id' => Auth::id(),
+                ]);
+                $task->completedUsers()->attach($validated['assignee_id']);
+            });
+        } catch (\Throwable $exception) {
+            Storage::disk('public')->delete($paths);
+            throw $exception;
         }
-
-        IntermediateTask::create([
-            'phase'       => $request->phase,
-            'title'       => $request->title,
-            'description' => $request->description,
-            'image_path'  => $imagePath,
-            'status'      => 'incomplete',
-            'user_id'     => Auth::id(),
-        ]);
 
         return redirect()->route('courses.intermediate.index')
             ->with('success', '新しい実務タスクを作成しました。');
@@ -198,8 +219,8 @@ class IntermediateCourseController extends Controller
     {
         $task = IntermediateTask::findOrFail($id);
         
-        // 作成者本人かチェック
-        if ($task->user_id !== Auth::id()) {
+        // 管理者以上のみ編集できる
+        if (!Auth::user()->isAdmin()) {
             abort(403, 'このタスクの編集権限がありません。');
         }
 
@@ -214,31 +235,44 @@ class IntermediateCourseController extends Controller
     {
         $task = IntermediateTask::findOrFail($id);
 
-        if ($task->user_id !== Auth::id()) {
+        if (!Auth::user()->isAdmin()) {
             abort(403, 'このタスクの更新権限がありません。');
         }
 
         $request->validate([
-            'phase'       => 'required|string',
+            'phase'       => ['required', \Illuminate\Validation\Rule::in(array_keys(IntermediateTask::phaseLabels()))],
             'title'       => 'required|string|max:255',
-            'description' => 'required|string',
-            'image'       => 'nullable|image|max:2048',
+            'description' => 'required|string|max:100000',
+            'images' => 'nullable|array|max:10',
+            'images.*' => 'required|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
+            'description_format' => 'nullable|in:plain,markdown',
         ]);
 
-        $imagePath = $task->image_path;
-        if ($request->hasFile('image')) {
-            if ($imagePath) {
-                Storage::disk('public')->delete($imagePath);
-            }
-            $imagePath = $request->file('image')->store('intermediate_tasks', 'public');
+        $request->validate(['remove_images' => 'nullable|array', 'remove_images.*' => ['string', \Illuminate\Validation\Rule::in($task->attachmentPaths())]]);
+        $removed = $request->input('remove_images', []);
+        $retained = array_values(array_diff($task->attachmentPaths(), $removed));
+        if (count($retained) + count($request->file('images', [])) > 10) {
+            throw \Illuminate\Validation\ValidationException::withMessages(['images' => '画像は合計10枚まで登録できます。']);
         }
-
-        $task->update([
-            'phase'       => $request->phase,
-            'title'       => $request->title,
-            'description' => $request->description,
-            'image_path'  => $imagePath,
-        ]);
+        $added = [];
+        try {
+            foreach ($request->file('images', []) as $image) {
+                $added[] = $image->store('intermediate_tasks', 'public');
+            }
+            $paths = array_merge($retained, $added);
+            $task->update([
+                'phase' => $request->phase,
+                'title' => $request->title,
+                'description' => $request->description,
+                'description_format' => $request->input('description_format', $task->description_format),
+                'image_paths' => $paths,
+                'image_path' => $paths[0] ?? null,
+            ]);
+        } catch (\Throwable $exception) {
+            Storage::disk('public')->delete($added);
+            throw $exception;
+        }
+        Storage::disk('public')->delete($removed);
 
         return redirect()->route('courses.intermediate.phase', ['phase' => $task->phase])
             ->with('success', 'タスクを更新しました。');
@@ -251,13 +285,11 @@ class IntermediateCourseController extends Controller
     {
         $task = IntermediateTask::findOrFail($id);
 
-        if ($task->user_id !== Auth::id()) {
+        if (!Auth::user()->isAdmin()) {
             abort(403, 'このタスクの削除権限がありません。');
         }
 
-        if ($task->image_path) {
-            Storage::disk('public')->delete($task->image_path);
-        }
+        Storage::disk('public')->delete($task->attachmentPaths());
 
         $phase = $task->phase;
         $task->delete();

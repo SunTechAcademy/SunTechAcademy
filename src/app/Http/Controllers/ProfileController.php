@@ -47,6 +47,9 @@ class ProfileController extends Controller
         ]);
 
         $user = $request->user();
+        if ($user->isSuperAdmin()) {
+            return back()->withErrors(['password' => '最高管理者のアカウントは削除できません。'], 'userDeletion');
+        }
 
         Auth::logout();
 

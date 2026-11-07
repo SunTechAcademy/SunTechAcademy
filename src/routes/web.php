@@ -22,6 +22,10 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    Route::get('/management/users', [\App\Http\Controllers\UserRoleController::class, 'index'])->middleware('can:view-user-progress')->name('management.users');
+    Route::get('/management/users/{user}', [\App\Http\Controllers\UserProgressController::class, 'show'])->middleware('can:view-user-progress')->name('management.users.show');
+    Route::patch('/management/users/{user}/role', [\App\Http\Controllers\UserRoleController::class, 'update'])->middleware('can:manage-roles')->name('management.users.role');
+
     // コース詳細
     Route::get('/courses/beginner', [CourseController::class, 'beginner'])->name('courses.beginner');
 
@@ -32,14 +36,15 @@ Route::middleware('auth')->group(function () {
             Route::get('/rules', [IntermediateCourseController::class, 'rules'])->name('rules');
             Route::get('/documents', [IntermediateCourseController::class, 'documents'])->name('documents');
             Route::get('/create', [IntermediateCourseController::class, 'create'])->name('create');
+            Route::post('/preview', [IntermediateCourseController::class, 'preview'])->middleware('throttle:60,1')->name('preview');
             Route::post('/store', [IntermediateCourseController::class, 'store'])->name('store');
             Route::get('/phase/{phase}', [IntermediateCourseController::class, 'phaseTasks'])->name('phase');
             Route::get('/tasks/{id}', [IntermediateCourseController::class, 'showTask'])->name('show_task');
             Route::post('/tasks/{id}/assign', [IntermediateCourseController::class, 'assignTask'])->name('assign_task');
             Route::post('/tasks/{id}/complete', [IntermediateCourseController::class, 'completeTask'])->name('complete_task');
-            Route::get('/tasks/{id}/edit', [IntermediateCourseController::class, 'edit'])->name('edit_task');
-            Route::put('/tasks/{id}', [IntermediateCourseController::class, 'update'])->name('update_task');
-            Route::delete('/tasks/{id}', [IntermediateCourseController::class, 'destroy'])->name('destroy_task');
+            Route::get('/tasks/{id}/edit', [IntermediateCourseController::class, 'edit'])->middleware('can:manage-tasks')->name('edit_task');
+            Route::put('/tasks/{id}', [IntermediateCourseController::class, 'update'])->middleware('can:manage-tasks')->name('update_task');
+            Route::delete('/tasks/{id}', [IntermediateCourseController::class, 'destroy'])->middleware('can:manage-tasks')->name('destroy_task');
         });
         
         Route::get('/courses/advanced', function () { 

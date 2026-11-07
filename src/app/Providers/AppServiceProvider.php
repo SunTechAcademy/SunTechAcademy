@@ -19,6 +19,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        \Illuminate\Support\Facades\Gate::define('manage-tasks', fn (\App\Models\User $user) => $user->isAdmin());
+        \Illuminate\Support\Facades\Gate::define('view-user-progress', fn (\App\Models\User $user) => $user->isAdmin());
+        \Illuminate\Support\Facades\Gate::define('manage-roles', fn (\App\Models\User $user) => $user->isSuperAdmin());
     }
 }

@@ -41,7 +41,8 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => rtrim(env('APP_URL', 'http://localhost'), '/').'/storage',
+            // Keep the browser's current host, port and HTTPS scheme for local public files.
+            'url' => env('PUBLIC_STORAGE_URL', '/storage'),
             'visibility' => 'public',
             'throw' => false,
             'report' => false,

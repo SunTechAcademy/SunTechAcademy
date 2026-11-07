@@ -28,6 +28,9 @@
                     @if(!Auth::guard('admin')->check())
                         <a href="{{ route('profile.edit') }}" class="member-account-link">プロフィール <span aria-hidden="true">↗</span></a>
                     @endif
+                    @can('view-user-progress')
+                        <a href="{{ route('management.users') }}" class="member-account-link">{{ Auth::user()->isSuperAdmin() ? '権限管理・受講者一覧' : '受講者一覧' }} <span aria-hidden="true">↗</span></a>
+                    @endcan
                     <a href="{{ route('referral') }}" class="member-account-link">お友達紹介 <span aria-hidden="true">↗</span></a>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf

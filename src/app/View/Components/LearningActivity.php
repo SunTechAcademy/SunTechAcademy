@@ -8,6 +8,13 @@ use Illuminate\View\Component;
 
 class LearningActivity extends Component
 {
+    public function __construct(public ?\App\Models\User $user = null)
+    {
+        if ($user && $user->id !== Auth::id()) {
+            \Illuminate\Support\Facades\Gate::authorize('view-user-progress');
+        }
+    }
+
     public function render()
     {
         $today = CarbonImmutable::today();
@@ -17,7 +24,7 @@ class LearningActivity extends Component
         if ($month->greaterThan($today)) {
             $month = $today->startOfMonth();
         }
-        $dates = Auth::user()->loginHistories()->distinct()->pluck('login_date')->all();
+        $dates = ($this->user ?? Auth::user())->loginHistories()->distinct()->pluck('login_date')->all();
         $loggedDays = array_fill_keys($dates, true);
         $totalLoginDays = count($loggedDays);
         $monthlyCount = count(array_filter($dates, fn ($date) => str_starts_with($date, $month->format('Y-m'))));

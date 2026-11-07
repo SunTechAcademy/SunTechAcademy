@@ -15,9 +15,21 @@ class IntermediateTask extends Model
         'title',
         'description',
         'image_path',
+        'image_paths',
+        'description_format',
         'status',
         'user_id',
     ];
+
+    protected function casts(): array
+    {
+        return ['image_paths' => 'array'];
+    }
+
+    public function attachmentPaths(): array
+    {
+        return $this->image_paths ?? ($this->image_path ? [$this->image_path] : []);
+    }
 
     public function user()
     {

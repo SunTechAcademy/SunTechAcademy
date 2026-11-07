@@ -14,10 +14,11 @@
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                 
-                @if($task->image_path)
-                    <div class="w-full bg-gray-50 border-b p-4 flex justify-center">
-                        <!-- <img src="{{ asset('storage/' . $task->image_path) }}" class="max-h-80 w-auto object-contain rounded shadow-sm"> -->
-                        <img src="/storage/{{ $task->image_path }}" class="max-h-80 w-auto object-contain rounded shadow-sm">
+                @if(count($task->attachmentPaths()))
+                    <div class="grid grid-cols-2 gap-4 p-4 bg-gray-50 border-b">
+                        @foreach($task->attachmentPaths() as $path)
+                            <a href="{{ Storage::disk('public')->url($path) }}" target="_blank" rel="noopener noreferrer"><img src="{{ Storage::disk('public')->url($path) }}" alt="参考画像 {{ $loop->iteration }}" class="w-full h-48 object-contain rounded" loading="lazy"></a>
+                        @endforeach
                     </div>
                 @endif
 
@@ -48,12 +49,17 @@
 
                     <div>
                         <h3 class="text-lg font-bold text-gray-800 border-b pb-2 mb-3">📋 実務要求・作業内容詳細</h3>
-                        <p class="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">{{ $task->description }}</p>
+                        <x-task-content-styles />
+                        @if($task->description_format === 'markdown')
+                            <div class="task-rich-text">{!! \App\Support\TaskMarkdown::render($task->description) !!}</div>
+                        @else
+                            <p class="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">{{ $task->description }}</p>
+                        @endif
                     </div>
 
                     <div class="pt-6 border-t border-gray-100 flex justify-between items-center">
                         <div>
-                            @if($task->user_id === Auth::id())
+                            @can('manage-tasks')
                                 <a href="{{ route('courses.intermediate.edit_task', ['id' => $task->id]) }}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-xs mr-2 transition shadow-sm">
                                     編集
                                 </a>
@@ -64,7 +70,7 @@
                                         削除
                                     </button>
                                 </form>
-                            @endif
+                            @endcan
                         </div>
                         <div>
                             @if($task->status === 'incomplete')

@@ -14,6 +14,7 @@
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-200">
                 <form action="{{ route('courses.intermediate.update_task', ['id' => $task->id]) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+                    @if($errors->any())<div role="alert" class="text-red-700">@foreach($errors->all() as $error)<p>{{ $error }}</p>@endforeach<p>画像を追加する場合は、ファイルを再選択してください。</p></div>@endif
                     @csrf
                     @method('PUT')
 
@@ -21,7 +22,7 @@
                         <label class="block text-sm font-bold text-gray-700 mb-2">業務フェーズ</label>
                         <select name="phase" class="w-full border-gray-300 rounded-md shadow-sm focus:border-orange-500 focus:ring-orange-500 text-sm">
                             @foreach($phases as $key => $label)
-                                <option value="{{ $key }}" {{ $task->phase === $key ? 'selected' : '' }}>{{ $label }}</option>
+                                <option value="{{ $key }}" {{ old('phase', $task->phase) === $key ? 'selected' : '' }}>{{ $label }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -33,19 +34,10 @@
 
                     <div>
                         <label class="block text-sm font-bold text-gray-700 mb-2">実務要求・作業内容詳細</label>
-                        <textarea name="description" rows="6" class="w-full border-gray-300 rounded-md shadow-sm focus:border-orange-500 focus:ring-orange-500 text-sm" required>{{ old('description', $task->description) }}</textarea>
+                        <x-task-editor :value="$task->description" :format="$task->description_format" />
                     </div>
 
-                    <div>
-                        <label class="block text-sm font-bold text-gray-700 mb-2">課題イメージ画像（任意）</label>
-                        @if($task->image_path)
-                            <div class="mb-2">
-                                <img src="/storage/{{ $task->image_path }}" class="h-32 w-auto object-cover rounded border">
-                                <p class="text-xs text-gray-400 mt-1">※新しい画像をアップロードすると上書きされます</p>
-                            </div>
-                        @endif
-                        <input type="file" name="image" class="text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100">
-                    </div>
+                    <x-task-images :paths="$task->attachmentPaths()" />
 
                     <div class="flex justify-end pt-4">
                         <button type="submit" class="bg-orange-600 hover:bg-orange-700 text-white font-bold py-2.5 px-6 rounded-lg text-sm transition shadow">

@@ -1,73 +1,40 @@
 <x-app-layout>
-    <x-slot name="header">
-        <div class="flex justify-between items-center">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ $phaseLabel }} {{ __('タスク一覧') }}
-            </h2>
-            <a href="{{ route('courses.intermediate.index') }}" class="text-sm font-bold text-gray-600 hover:text-gray-900">
-                ← フェーズ一覧に戻る
-            </a>
-        </div>
-    </x-slot>
-
+    <x-slot name="header"><h2 class="font-semibold text-xl text-gray-800">{{ $phaseLabel }} · タスク一覧</h2></x-slot>
     <x-course-page-styles />
-    <div class="course-page is-intermediate">
-        <div class="course-container">
-            
-            @if(session('success'))
-                <div class="mb-6 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
-                    {{ session('success') }}
-                </div>
-            @endif
-
-            @if($tasks->isEmpty())
-                <div class="bg-white p-12 text-center rounded-lg border border-gray-200 shadow-sm">
-                    <p class="text-gray-500">現在、このフェーズに登録されている実務タスクはありません。</p>
-                </div>
-            @else
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    @foreach($tasks as $task)
-                        @php
-                            $isCompleted = ($task->status === 'completed');
-                        @endphp
-                        <a href="{{ route('courses.intermediate.show_task', ['id' => $task->id]) }}" class="flex flex-col bg-white border {{ $isCompleted ? 'border-green-300 bg-green-50/10' : 'border-gray-200' }} rounded-2xl shadow-sm hover:shadow-md transition-all overflow-hidden group relative">
-                            
-                            @if($isCompleted)
-                                <div class="absolute top-2 right-2 bg-green-600 text-white font-bold text-xxs px-2 py-0.5 rounded-full z-10 shadow">
-                                    ✓ 完了済み
-                                </div>
-                            @endif
-
-                            @if($task->image_path)
-                                <!-- <img src="{{ asset('storage/' . $task->image_path) }}" class="w-full h-40 object-cover" alt="{{ $task->title }}"> -->
-                                 <img src="/storage/{{ $task->image_path }}" class="w-full h-40 object-cover" alt="{{ $task->title }}">
-                            @else
-                                <div class="w-full h-40 bg-emerald-50 flex items-center justify-center text-emerald-700 font-mono text-sm">
-                                    BUILD · LEARN · GROW
-                                </div>
-                            @endif
-
-                            <div class="p-5 flex flex-col flex-grow">
-                                <h4 class="font-bold text-base text-gray-900 mb-2 group-hover:text-emerald-700 transition-colors">
-                                    {{ $task->title }}
-                                </h4>
-                                <p class="text-xs text-gray-600 line-clamp-3 flex-grow leading-relaxed">
-                                    {{ Str::limit($task->description, 90, '...') }}
-                                </p>
-                                <div class="mt-4 pt-3 border-t border-gray-100 flex justify-between items-center text-xs font-bold">
-                                    <div class="flex flex-col text-gray-400 font-normal space-y-0.5">
-                                        <span>日: {{ $task->created_at->format('Y/m/d') }}</span>
-                                        <span class="text-gray-500 font-semibold">作: {{ $task->user->name ?? '不明' }}</span>
-                                        <span class="text-emerald-600 font-bold">担: {{ $task->completedUsers->first()->name ?? '（未対応）' }}</span>
-                                    </div>
-                                    <span class="text-emerald-700 group-hover:underline">詳細要件・着手 →</span>
-                                </div>
-                            </div>
-                        </a>
-                    @endforeach
-                </div>
-            @endif
-
+    @php
+        $phaseLabels = \App\Models\IntermediateTask::phaseLabels();
+        $phaseNumber = array_search($phase, array_keys($phaseLabels)) + 1;
+    @endphp
+    <div class="course-page is-intermediate"><div class="course-container">
+        <a class="task-list-back" href="{{ route('courses.intermediate.index') }}">← 中級コースへ</a>
+        <div class="task-list-hero">
+            <div class="task-list-heading"><span class="task-phase-number">{{ str_pad($phaseNumber, 2, '0', STR_PAD_LEFT) }}</span><div><p class="course-eyebrow">PRACTICE / {{ strtoupper($phase) }}</p><h1>{{ $phaseLabel }}</h1><p class="course-muted">{{ rtrim(\App\Models\IntermediateTask::phaseDefinitions()[$phase], '。') }}。一つずつ、実践を積み重ねよう。</p></div></div>
+            <a class="course-button" href="{{ route('courses.intermediate.create', ['phase' => $phase]) }}">＋ タスクを発行</a>
         </div>
-    </div>
+        <nav class="task-phase-navigation" aria-label="実践フェーズ">@foreach($phaseLabels as $key => $label)<a href="{{ route('courses.intermediate.phase', $key) }}" @if($key === $phase) aria-current="page" @endif>{{ $label }}</a>@endforeach</nav>
+        @if(session('success'))<p class="course-notice" role="status">{{ session('success') }}</p>@endif
+        <div class="task-list-section-heading"><h2>取り組むタスク <span>{{ $tasks->count() }}</span></h2><p>内容と担当者を確認して、次の一歩へ。</p></div>
+        @if($tasks->isEmpty())
+            <div class="task-list-empty"><span class="task-empty-icon" aria-hidden="true"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="3" width="14" height="18" rx="3"/><path d="M9 8h6M9 12h6M9 16h3" stroke-linecap="round"/></svg></span><h2>これから始まる、新しい実践。</h2><p>このフェーズのタスクはまだありません。<br>タスクが発行されると、ここで内容や担当者を確認できます。</p><a class="task-list-back" href="{{ route('courses.intermediate.index') }}">ほかのフェーズを見てみる →</a></div>
+        @else
+            <div class="task-list-grid">@foreach($tasks as $task)
+                @php
+                    $isCompleted = $task->status === 'completed';
+                    $isMine = $task->completedUsers->contains(Auth::id());
+                    $statusLabel = ['incomplete' => '未対応', 'assigned' => '担当中', 'completed' => '完了'][$task->status] ?? '未対応';
+                    $plainDescription = $task->description_format === 'markdown' ? html_entity_decode(strip_tags(\App\Support\TaskMarkdown::render($task->description)), ENT_QUOTES | ENT_HTML5, 'UTF-8') : $task->description;
+                    $images = $task->attachmentPaths();
+                @endphp
+                <a class="practice-task {{ $isCompleted ? 'is-completed' : '' }}" href="{{ route('courses.intermediate.show_task', $task->id) }}">
+                    <div class="practice-task-top"><span class="task-status status-{{ $task->status }}"><span aria-hidden="true">{{ $isCompleted ? '✓' : '●' }}</span> {{ $statusLabel }}</span><div>@if($isMine)<span class="task-mine">あなたの担当</span>@endif<span class="task-reference">#{{ str_pad($task->id, 3, '0', STR_PAD_LEFT) }}</span></div></div>
+                    <div class="practice-task-content"><div><h3>{{ $task->title }}</h3><p class="task-description">{{ Str::limit($plainDescription, 160) }}</p></div>@if(count($images))<div class="task-thumbnail"><img src="{{ Storage::disk('public')->url($images[0]) }}" alt="{{ $task->title }}の参考画像" loading="lazy">@if(count($images) > 1)<span>画像 {{ count($images) }}枚</span>@endif</div>@endif</div>
+                    <div class="task-assignee"><span class="task-assignee-avatar" aria-hidden="true">{{ $task->completedUsers->isNotEmpty() ? mb_substr($task->completedUsers->first()->name, 0, 1) : '—' }}</span><div><small>担当者</small><strong>{{ $task->completedUsers->pluck('name')->join('、') ?: '担当者未定' }}</strong></div></div>
+                    <div class="practice-task-footer"><div><span>発行 {{ $task->created_at->format('Y/m/d') }}</span><span>発行者：{{ $task->user->name ?? '不明' }}</span></div><span class="task-open">詳細を見る <span aria-hidden="true">↗</span></span></div>
+                </a>
+            @endforeach</div>
+        @endif
+    </div></div>
+    <style>
+        .task-list-back{display:inline-block;padding:6px 0;color:#78918b;font-size:12px;font-weight:600}.task-list-back:hover{color:#367f6c}.task-list-hero{display:flex;justify-content:space-between;align-items:center;gap:24px;margin:28px 0}.task-list-heading{display:flex;gap:22px;align-items:center;min-width:0}.task-phase-number{display:grid;place-items:center;width:68px;height:68px;flex-shrink:0;border-radius:22px;background:linear-gradient(135deg,#e4f1eb,#eef0fa);color:#6d9a87;font-size:26px;font-weight:700;letter-spacing:-.06em}.task-list-heading h1{font-size:30px;font-weight:700;color:#3c574e;margin-bottom:8px}.task-phase-navigation{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:40px;padding:12px;background:#fff;border:1px solid #e8eeeb;border-radius:18px}.task-phase-navigation a{padding:9px 13px;border-radius:10px;font-size:12px;color:#8b9892;transition:background .18s,color .18s}.task-phase-navigation a:hover{background:#f0f6f3;color:#527a69}.task-phase-navigation a[aria-current=page]{background:#e8f2ed;color:#46806b;font-weight:700}.task-list-section-heading{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:20px}.task-list-section-heading h2{font-size:18px;font-weight:700;color:#50685e}.task-list-section-heading h2 span{display:inline-block;margin-left:10px;padding:3px 9px;background:#eaf0ec;border-radius:8px;color:#7c9485;font-size:12px}.task-list-section-heading>p{color:#99a49e;font-size:12px}.task-list-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}.practice-task{display:flex;flex-direction:column;min-width:0;background:white;border:1px solid #e4ebe6;border-radius:22px;padding:24px;position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s,border-color .2s}.practice-task:hover{transform:translateY(-3px);box-shadow:0 14px 32px #42624f0c;border-color:#bed6c8}.practice-task.is-completed::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#87cfaf,#a4c9ef,#bca8e0,#e5b8c4,#efdab2)}.practice-task-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px}.practice-task-top>div{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:flex-end}.task-status{font-size:11px;padding:6px 10px;border-radius:8px;background:#f1f3f6;color:#93a0ac;font-weight:600;white-space:nowrap}.status-assigned{background:#fff4e3;color:#b49254}.status-completed{background:linear-gradient(110deg,#e6f4ed,#ececfa);color:#689282}.task-status>span{font-size:9px;margin-right:4px}.task-reference{font-size:11px;color:#a8b3ac;font-variant-numeric:tabular-nums}.task-mine{font-size:10px;color:#769789}.practice-task-content{display:flex;gap:18px;align-items:flex-start;margin-bottom:24px;flex:1}.practice-task-content>div:first-child{min-width:0;flex:1}.practice-task h3{font-size:17px;line-height:1.65;font-weight:700;color:#4b6156;margin-bottom:10px;overflow-wrap:anywhere}.task-description{font-size:12px;line-height:1.9;color:#909e96;white-space:pre-line;overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}.task-thumbnail{position:relative;width:88px;height:88px;flex-shrink:0}.task-thumbnail img{width:100%;height:100%;object-fit:cover;border-radius:12px;background:#f1f5f2}.task-thumbnail>span{position:absolute;right:4px;bottom:4px;padding:3px 6px;background:#ffffffed;border-radius:6px;font-size:9px;color:#72877b}.task-assignee{display:flex;align-items:center;gap:10px;margin-bottom:20px}.task-assignee-avatar{width:34px;height:34px;display:grid;place-items:center;border-radius:12px;background:linear-gradient(135deg,#eaf2ed,#eceffa);color:#829b8e;font-size:12px}.task-assignee>div{min-width:0}.task-assignee small{display:block;font-size:9px;color:#a1aca5;margin-bottom:2px}.task-assignee strong{display:block;font-size:12px;color:#76897d;font-weight:500;overflow-wrap:anywhere}.practice-task-footer{border-top:1px solid #eff3f0;padding-top:16px;display:flex;align-items:center;justify-content:space-between;gap:14px}.practice-task-footer>div{display:flex;gap:4px;flex-direction:column;min-width:0;font-size:10px;color:#a2ada6;overflow-wrap:anywhere}.task-open{display:flex;align-items:center;gap:12px;white-space:nowrap;font-size:12px;font-weight:600;color:#6c9480}.task-open>span{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:#f0f6f2}.task-list-empty{padding:60px 24px;background:#fff;border:1px solid #e4ebe6;border-radius:24px;text-align:center}.task-empty-icon{display:grid;place-items:center;width:72px;height:72px;border-radius:24px;margin:0 auto 24px;background:linear-gradient(135deg,#e9f4ed,#edf0fa);color:#8aab97}.task-list-empty h2{font-size:19px;font-weight:700;color:#5a7466;margin-bottom:14px}.task-list-empty p{font-size:13px;line-height:1.9;color:#96a299;margin-bottom:20px}.practice-task:focus-visible,.task-phase-navigation a:focus-visible,.task-list-back:focus-visible{outline:3px solid #9dbdad;outline-offset:3px}@media(max-width:800px){.task-list-grid{grid-template-columns:1fr}.task-list-hero{align-items:flex-start;flex-direction:column}.task-list-section-heading>p{display:none}}@media(max-width:480px){.task-list-heading{gap:14px}.task-phase-number{width:52px;height:52px;font-size:22px;border-radius:17px}.task-list-heading h1{font-size:24px}.practice-task{padding:20px}.task-thumbnail{width:64px;height:64px}.task-phase-navigation{gap:4px;padding:8px;margin-bottom:28px}.task-phase-navigation a{padding:8px 10px;font-size:11px}.practice-task h3{font-size:15px}.task-list-heading .course-eyebrow{font-size:9px}}@media(prefers-reduced-motion:reduce){.practice-task,.task-phase-navigation a{transition:none}.practice-task:hover{transform:none}}
+    </style>
 </x-app-layout>

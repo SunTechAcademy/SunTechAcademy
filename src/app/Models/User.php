@@ -68,9 +68,14 @@ class User extends Authenticatable
     /**
      * 管理者権限を所持しているか判定
      */
+    public function isSuperAdmin(): bool
+    {
+        return $this->role === 'super_admin';
+    }
+
     public function isAdmin(): bool
     {
-        return $this->role === 'admin';
+        return in_array($this->role, ['admin', 'super_admin'], true);
     }
 
     /**

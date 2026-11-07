@@ -21,6 +21,10 @@ class CheckBeginnerCourseCompletion
             return redirect()->route('login');
         }
 
+        if ($user->isAdmin()) {
+            return $next($request);
+        }
+
         // 全チャプター数と、ユーザーが完了したチャプター数を取得
         $totalChapters = Chapter::count();
         $completedChaptersCount = $user->chapters()->count();

@@ -1,3 +1,4 @@
+@props(['admin' => false])
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -5,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>ログイン | {{ config('app.name', 'SunTechAcademy') }}</title>
+    <title>{{ $admin ? '管理者ログイン' : 'ログイン' }} | {{ config('app.name', 'SunTechAcademy') }}</title>
     <style>
         * { box-sizing: border-box; }
         body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Kaku Gothic ProN', 'Yu Gothic', sans-serif; color: #30364b; background: #f7f8fc; }
@@ -52,9 +53,9 @@
     </header>
     <main class="login-main">
         <section class="login-story" aria-labelledby="login-welcome">
-            <p class="login-eyebrow">WELCOME BACK</p>
-            <h1 id="login-welcome">昨日の続きから、<br>新しい「できた」へ。</h1>
-            <p class="login-story-copy">あなたのペースで、一歩ずつ。<br>今日も、未来につながる学びを始めよう。</p>
+            <p class="login-eyebrow">{{ $admin ? 'ACADEMY MANAGEMENT' : 'WELCOME BACK' }}</p>
+            <h1 id="login-welcome">@if($admin)学びの一歩を、<br>支える場所。@else昨日の続きから、<br>新しい「できた」へ。@endif</h1>
+            <p class="login-story-copy">@if($admin)受講生の新しいスタートを、スムーズに。<br>アカウント発行と運営の管理をここから。@elseあなたのペースで、一歩ずつ。<br>今日も、未来につながる学びを始めよう。@endif</p>
             <div class="login-illustration" aria-hidden="true">
                 <svg viewBox="0 0 360 240" fill="none">
                     <circle cx="180" cy="120" r="110" fill="#eeeff9"/><circle cx="180" cy="120" r="88" stroke="white" stroke-width="2"/>

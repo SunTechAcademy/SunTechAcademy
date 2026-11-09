@@ -1,52 +1,17 @@
-<x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
+<x-admin-layout>
+    <a class="admin-text-link" href="{{ route('admin.dashboard') }}">← 管理ホームへ</a>
+    <div class="admin-register-heading"><p class="admin-eyebrow">NEW LEARNER ACCOUNT</p><h1 class="admin-title">新しい受講生を迎えよう。</h1><p class="admin-subtitle">学習を始めるためのアカウントを発行します。</p></div>
+    <form method="POST" action="{{ route('register') }}" class="admin-register-form">
         @csrf
-
-        <!-- Name -->
-        <div>
-            <x-input-label for="name" :value="__('氏名')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
-        </div>
-
-        <!-- Email Address -->
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('メールアドレス')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
-
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('パスワード')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('パスワード（確認用）')" />
-
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
-                {{ __('既に登録済みですか？') }}
-            </a>
-
-            <x-primary-button class="ms-4">
-                {{ __('アカウントを作成する') }}
-            </x-primary-button>
-        </div>
+        <div class="admin-register-intro"><span aria-hidden="true">＋</span><div><h2>受講生のアカウント情報</h2><p>一般受講生として登録されます。</p></div></div>
+        @foreach(['name' => ['氏名', 'text', '山田 太郎', 'name'], 'email' => ['メールアドレス', 'email', 'name@example.com', 'off'], 'password' => ['初期パスワード', 'password', '初期パスワードを入力', 'new-password'], 'password_confirmation' => ['初期パスワード（確認）', 'password', '同じパスワードをもう一度入力', 'new-password']] as $field => [$label, $type, $placeholder, $autocomplete])
+            <div class="admin-register-field"><label for="{{ $field }}">{{ $label }} <span>必須</span></label><input id="{{ $field }}" type="{{ $type }}" name="{{ $field }}" @if($type !== 'password') value="{{ old($field) }}" @endif placeholder="{{ $placeholder }}" autocomplete="{{ $autocomplete }}" required @if($type === 'password') minlength="8" @endif aria-invalid="{{ $errors->has($field) ? 'true' : 'false' }}" @if($errors->has($field)) aria-describedby="{{ $field }}-errors" @endif>
+            @if($field === 'password')<p class="admin-register-help">8文字以上で設定してください。</p>@endif
+            @if($errors->has($field))<ul class="admin-register-errors" id="{{ $field }}-errors" role="alert">@foreach($errors->get($field) as $message)<li>{{ $message }}</li>@endforeach</ul>@endif</div>
+        @endforeach
+        <div class="admin-register-footer"><a class="admin-text-link" href="{{ route('admin.dashboard') }}">キャンセル</a><button class="admin-button" type="submit">アカウントを発行する →</button></div>
     </form>
-</x-guest-layout>
+    <style>
+        .admin-register-heading{max-width:720px;margin:28px auto}.admin-register-form{max-width:720px;margin:auto;padding:36px;background:#fff;border:1px solid #e5eaf4;border-radius:24px;box-shadow:0 12px 40px #465a7a05}.admin-register-intro{display:flex;align-items:center;gap:14px;padding-bottom:26px;border-bottom:1px solid #eef1f7;margin-bottom:28px}.admin-register-intro>span{display:grid;place-items:center;width:42px;height:42px;border-radius:14px;background:#edf1fa;color:#92a2c8;font-size:24px}.admin-register-intro h2{font-size:16px;color:#647593}.admin-register-intro p{font-size:11px;color:#9ca7ba;margin-top:6px}.admin-register-field{margin-bottom:24px}.admin-register-field label{display:block;font-size:12px;font-weight:600;color:#6e7e99;margin-bottom:10px}.admin-register-field label>span{font-size:9px;color:#96a4c1;background:#f0f3fa;padding:3px 6px;border-radius:5px;margin-left:7px}.admin-register-field input{width:100%;padding:14px 16px;border:1px solid #e0e6f1;border-radius:12px;background:#fbfcfe;color:#52637e;font-size:15px;transition:border-color .2s,box-shadow .2s}.admin-register-field input::placeholder{color:#aab3c5}.admin-register-field input:focus{outline:none;border-color:#98a8cc;box-shadow:0 0 0 4px #a8b7d91c;background:#fff}.admin-register-field input[aria-invalid=true]{border-color:#ce98aa}.admin-register-help{font-size:11px;color:#a3adbf;margin-top:8px}.admin-register-errors{list-style:none;padding:0;margin:8px 0 0;font-size:12px;line-height:1.8;color:#b47087}.admin-register-footer{display:flex;justify-content:flex-end;gap:24px;align-items:center;padding-top:10px}@media(max-width:600px){.admin-register-form{padding:24px 20px}.admin-register-footer{flex-wrap:wrap;gap:18px}.admin-register-footer .admin-button{width:100%}}@media(prefers-reduced-motion:reduce){.admin-register-field input{transition:none}}
+    </style>
+</x-admin-layout>

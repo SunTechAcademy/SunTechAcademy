@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>管理者ページ | {{ config('app.name', 'SunTechAcademy') }}</title>
+    <x-favicon />
+    <style>
+        *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif;background:#f7f8fc;color:#3c465f}a{color:inherit;text-decoration:none}button,input{font:inherit}h1,h2,h3,p{margin:0}button{cursor:pointer}.admin-header{background:#fff;border-bottom:1px solid #ebedf5}.admin-header-inner{max-width:1240px;margin:auto;padding:20px 30px;display:flex;align-items:center;gap:30px;min-height:84px}.admin-brand img{display:block;width:190px;max-width:100%;height:auto}.admin-nav{display:flex;gap:6px}.admin-nav a{font-size:12px;font-weight:600;color:#8590a7;padding:11px 14px;border-radius:11px}.admin-nav a[aria-current=page],.admin-nav a:hover{background:#eff1fa;color:#6875a8}.admin-account{display:flex;align-items:center;gap:14px;margin-left:auto}.admin-account-name{font-size:12px;max-width:160px;overflow-wrap:anywhere}.admin-account-name small{display:block;font-size:9px;color:#9ba4b7;letter-spacing:.1em;margin-bottom:5px}.admin-logout{border:1px solid #e7eaf3;border-radius:11px;padding:10px 13px;background:#fff;color:#8891a7;font-size:11px;transition:background .2s}.admin-logout:hover{background:#f7edf1;color:#a57086}.admin-container{max-width:1180px;margin:auto;padding:48px 24px 70px}.admin-eyebrow{font-size:10px;font-weight:700;letter-spacing:.18em;color:#8692b9;margin-bottom:14px}.admin-title{font-size:clamp(24px,3vw,32px);letter-spacing:-.03em;line-height:1.6;color:#4a5675}.admin-subtitle{font-size:13px;color:#929bae;line-height:1.9;margin-top:10px}.admin-notice{margin-bottom:24px;padding:16px 20px;border:1px solid #dbece3;border-radius:14px;background:#eef8f3;color:#638f7c;font-size:13px}.admin-button{display:inline-flex;justify-content:center;align-items:center;gap:18px;padding:15px 22px;border:0;border-radius:13px;background:linear-gradient(120deg,#8290c0,#6474ac);color:#fff;font-size:13px;font-weight:600;box-shadow:0 6px 16px #7181b525;transition:transform .2s,box-shadow .2s}.admin-button:hover{transform:translateY(-2px);box-shadow:0 10px 22px #7181b535}.admin-text-link{font-size:12px;color:#8492b5}.admin-text-link:hover{text-decoration:underline}a:focus-visible,button:focus-visible{outline:3px solid #b3bfdf;outline-offset:4px} @media(max-width:800px){.admin-header-inner{flex-wrap:wrap;gap:16px;padding:18px 20px}.admin-nav{order:3;width:100%;border-top:1px solid #f0f2f7;padding-top:10px}.admin-account-name{display:none}.admin-container{padding:32px 20px 50px}.admin-brand img{width:165px}}@media(prefers-reduced-motion:reduce){.admin-button,.admin-logout{transition:none}.admin-button:hover{transform:none}}
+    </style>
+</head>
+<body>
+    <header class="admin-header"><div class="admin-header-inner">
+        <a class="admin-brand" href="{{ route('admin.dashboard') }}" aria-label="管理者ホーム"><img src="{{ asset('images/SunTechAcademy.png') }}" alt="SunTechAcademy"></a>
+        <nav class="admin-nav" aria-label="管理者メニュー"><a href="{{ route('admin.dashboard') }}" @if(request()->routeIs('admin.dashboard')) aria-current="page" @endif>管理ホーム</a><a href="{{ route('admin.users.index') }}" @if(request()->routeIs('admin.users.*')) aria-current="page" @endif>登録ユーザー</a><a href="{{ route('register') }}" @if(request()->routeIs('register')) aria-current="page" @endif>アカウント発行</a></nav>
+        <div class="admin-account"><div class="admin-account-name"><small>ADMINISTRATOR</small>{{ Auth::guard('admin')->user()->name }}</div><form method="POST" action="{{ route('admin.logout') }}">@csrf<button class="admin-logout" type="submit">ログアウト ↗</button></form></div>
+    </div></header>
+    <main class="admin-container">{{ $slot }}</main>
+</body>
+</html>

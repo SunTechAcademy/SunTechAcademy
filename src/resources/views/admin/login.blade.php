@@ -1,20 +1,27 @@
-<x-guest-layout>
-    <div class="mb-4 text-xl font-bold text-center text-gray-700">管理者ログイン</div>
-    
+<x-login-layout :admin="true">
+    <h2 id="login-title">管理者ログイン</h2>
+    <p class="login-intro">管理者アカウントでログインしてください。</p>
+    @if(session('status'))
+        <div class="login-status" role="status">{{ session('status') }}</div>
+    @endif
     <form method="POST" action="{{ route('admin.login') }}">
         @csrf
-        <div>
-            <x-input-label for="email" value="メールアドレス" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        <div class="login-field">
+            <label for="email">メールアドレス</label>
+            <input id="email" class="login-input" type="email" name="email" value="{{ old('email') }}" required autocomplete="username" placeholder="name@example.com" aria-invalid="{{ $errors->has('email') ? 'true' : 'false' }}" @if($errors->has('email')) aria-describedby="email-errors" @endif>
+            @if($errors->has('email'))
+                <ul id="email-errors" class="login-errors" role="alert">@foreach($errors->get('email') as $message)<li>{{ $message }}</li>@endforeach</ul>
+            @endif
         </div>
-        <div class="mt-4">
-            <x-input-label for="password" value="パスワード" />
-            <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required />
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+        <div class="login-field">
+            <label for="password">パスワード</label>
+            <input id="password" class="login-input" type="password" name="password" required autocomplete="current-password" placeholder="パスワードを入力" aria-invalid="{{ $errors->has('password') ? 'true' : 'false' }}" @if($errors->has('password')) aria-describedby="password-errors" @endif>
+            @if($errors->has('password'))
+                <ul id="password-errors" class="login-errors" role="alert">@foreach($errors->get('password') as $message)<li>{{ $message }}</li>@endforeach</ul>
+            @endif
         </div>
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button class="ml-3">ログイン</x-primary-button>
-        </div>
+        <label for="remember_me" class="login-remember"><input id="remember_me" type="checkbox" name="remember" @checked(old('remember'))><span>次回から自動ログイン</span></label>
+        <button type="submit" class="login-submit">管理画面へログイン <span aria-hidden="true">→</span></button>
+        <p class="login-forgot"><a href="{{ route('login') }}">受講生・講師のログインはこちら →</a></p>
     </form>
-</x-guest-layout>
+</x-login-layout>

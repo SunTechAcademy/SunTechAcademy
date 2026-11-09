@@ -70,8 +70,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
     // ログイン済みのみ
     Route::middleware('auth:admin')->group(function () {
         Route::get('dashboard', function () {
-            return view('admin.dashboard');
+            return view('admin.dashboard', [
+                'totalUsers' => \App\Models\User::count(),
+                'studentCount' => \App\Models\User::where('role', 'student')->count(),
+                'instructorCount' => \App\Models\User::whereIn('role', ['admin', 'super_admin'])->count(),
+            ]);
         })->name('dashboard');
+
+        Route::get('users', [\App\Http\Controllers\Admin\UserController::class, 'index'])->name('users.index');
+        Route::get('users/{user}/delete', [\App\Http\Controllers\Admin\UserController::class, 'confirmDelete'])->name('users.delete');
+        Route::delete('users/{user}', [\App\Http\Controllers\Admin\UserController::class, 'destroy'])->name('users.destroy');
 
         Route::post('logout', [AuthController::class, 'destroy'])->name('logout');
     });

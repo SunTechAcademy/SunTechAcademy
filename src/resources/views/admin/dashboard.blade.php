@@ -1,35 +1,16 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            管理者ダッシュボード
-        </h2>
-    </x-slot>
-
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    ようこそ、{{ Auth::guard('admin')->user()->name }} さん (管理者権限)
-
-                    <hr class="my-6">
-
-                    <div class="mb-8">
-                        <h3 class="text-lg font-medium text-gray-900 mb-4">ユーザー管理</h3>
-                        <a href="{{ route('register') }}" 
-                        class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
-                            ＋ 新規ユーザーアカウント作成
-                        </a>
-                        <p class="mt-2 text-sm text-gray-600">新しい受講生のアカウントをこちらから発行できます。</p>
-                    </div>
-
-                    <hr class="my-6">
-                    
-                    <form method="POST" action="{{ route('admin.logout') }}" class="mt-4">
-                        @csrf
-                        <x-danger-button>ログアウト</x-danger-button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</x-app-layout>
+<x-admin-layout>
+    @if(session('success'))<p class="admin-notice" role="status">{{ session('success') }}</p>@endif
+    <div class="admin-dashboard-hero"><div><p class="admin-eyebrow">ACADEMY MANAGEMENT</p><h1 class="admin-title">学びのスタートを、支えよう。</h1><p class="admin-subtitle">{{ Auth::guard('admin')->user()->name }}さん、おかえりなさい。<br>新しい受講生を迎える準備を、ここから。</p></div><span class="admin-workspace-badge">管理者ワークスペース</span></div>
+    <div class="admin-overview"><div><span>登録ユーザー</span><strong>{{ $totalUsers }}<small>名</small></strong></div><div><span>一般受講生</span><strong>{{ $studentCount }}<small>名</small></strong></div><div><span>管理者・最高管理者</span><strong>{{ $instructorCount }}<small>名</small></strong></div></div>
+    <a class="admin-users-entry" href="{{ route('admin.users.index') }}"><div><strong>登録ユーザーを確認・管理</strong><p>名前・メールアドレスで検索し、退社した方のアカウントを削除できます。</p></div><span>ユーザー一覧へ →</span></a>
+    <section class="admin-issue-card">
+        <div class="admin-issue-content"><p class="admin-eyebrow">WELCOME A NEW LEARNER</p><h2>新しい学びの一歩を。</h2><p>受講生のアカウントを発行して、<br>サンテックアカデミーでの学習を始めてもらいましょう。</p><a class="admin-button" href="{{ route('register') }}">＋ 新規アカウントを発行 <span aria-hidden="true">→</span></a></div>
+        <div class="admin-issue-art" aria-hidden="true"><svg viewBox="0 0 300 230" fill="none"><circle cx="155" cy="115" r="96" fill="#edf0fa"/><circle cx="155" cy="115" r="75" stroke="white" stroke-width="2"/><rect x="54" y="54" width="198" height="140" rx="20" fill="#dce4f3" transform="rotate(-6 54 54)"/><rect x="48" y="41" width="198" height="140" rx="18" fill="white" stroke="#dfe5f1"/><circle cx="98" cy="95" r="24" fill="#eef2fb"/><circle cx="98" cy="89" r="8" fill="#9aa9cd"/><path d="M84 109c1-14 27-14 28 0" fill="#9aa9cd"/><rect x="139" y="79" width="76" height="8" rx="4" fill="#c9d3e9"/><rect x="139" y="98" width="52" height="6" rx="3" fill="#e5eaf4"/><rect x="78" y="138" width="137" height="9" rx="4.5" fill="#eef2f8"/><rect x="195" y="147" width="54" height="54" rx="17" fill="#8ca5c8"/><path d="M222 161v26m-13-13h26" stroke="white" stroke-width="4" stroke-linecap="round"/><path d="m45 28 4 10 10 4-10 4-4 10-4-10-10-4 10-4Z" fill="#ded1ae"/></svg></div>
+    </section>
+    <section class="admin-guidance"><h2>アカウント発行の流れ</h2><ol><li><span>01</span><div><strong>受講者の情報を入力</strong><p>氏名・メールアドレス・初期パスワードを設定します。</p></div></li><li><span>02</span><div><strong>一般受講生として発行</strong><p>新しいアカウントは、一般受講生の権限で作成されます。</p></div></li><li><span>03</span><div><strong>学習の開始を案内</strong><p>ログイン情報を受講生へ案内してください。</p></div></li></ol></section>
+    <p class="admin-dashboard-note">受講者の進捗確認や権限変更は、管理者・最高管理者のユーザーアカウントで<a href="{{ route('login') }}">ユーザー画面へログイン</a>して行えます。</p>
+    <style>
+        .admin-users-entry{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:24px 28px;margin-bottom:28px;border:1px solid #e1e8f2;border-radius:18px;background:#fff}.admin-users-entry:hover{background:#f0f4fc}.admin-users-entry strong{font-size:16px;color:#6a7e9d}.admin-users-entry p{font-size:12px;color:#9aa6ba;margin-top:8px;line-height:1.9}.admin-users-entry>span{color:#8a9cba;font-size:12px;white-space:nowrap}@media(max-width:600px){.admin-users-entry{align-items:flex-start;flex-direction:column}}
+        .admin-dashboard-hero{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-bottom:32px}.admin-workspace-badge{font-size:11px;color:#8392b8;background:#edf0fa;padding:10px 15px;border-radius:30px;white-space:nowrap}.admin-overview{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:28px}.admin-overview>div{padding:24px 28px;background:white;border:1px solid #e7ebf4;border-radius:18px}.admin-overview span{display:block;color:#9aa3b7;font-size:12px;margin-bottom:16px}.admin-overview strong{font-size:32px;color:#7485b5}.admin-overview small{font-size:12px;font-weight:400;color:#a4adc0;margin-left:8px}.admin-issue-card{display:grid;grid-template-columns:1.3fr 1fr;align-items:center;gap:40px;background:linear-gradient(110deg,#fff,#f5f7fc);border:1px solid #e6ebf4;border-radius:26px;padding:44px;margin-bottom:36px}.admin-issue-content h2{font-size:24px;line-height:1.6;color:#52617f}.admin-issue-content>p:not(.admin-eyebrow){font-size:13px;line-height:2;color:#939eb3;margin:16px 0 28px}.admin-issue-art{max-width:300px;width:100%;justify-self:center}.admin-issue-art svg{width:100%;display:block}.admin-guidance h2{font-size:15px;color:#7c8aa4;margin-bottom:22px}.admin-guidance ol{padding:0;list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:24px}.admin-guidance li{display:flex;gap:14px}.admin-guidance li>span{display:grid;place-items:center;width:32px;height:32px;flex-shrink:0;background:#eaf0f8;border-radius:10px;color:#91a1bf;font-size:10px;font-weight:700}.admin-guidance strong{font-size:12px;color:#7889a5}.admin-guidance p{font-size:11px;line-height:1.9;color:#a1aabd;margin-top:8px}.admin-dashboard-note{margin-top:36px;border-top:1px solid #e6eaf2;padding-top:24px;color:#9aa5b7;font-size:11px;line-height:1.9}.admin-dashboard-note a{text-decoration:underline;color:#7c8db3}@media(max-width:700px){.admin-dashboard-hero{align-items:flex-start;flex-direction:column}.admin-overview{gap:10px}.admin-overview>div{padding:18px 12px}.admin-overview span{font-size:10px}.admin-overview strong{font-size:26px}.admin-issue-card{padding:28px;grid-template-columns:1fr;gap:0}.admin-issue-art{display:none}.admin-guidance ol{grid-template-columns:1fr}.admin-issue-content h2{font-size:21px}}@media(max-width:380px){.admin-overview{grid-template-columns:1fr}}
+    </style>
+</x-admin-layout>

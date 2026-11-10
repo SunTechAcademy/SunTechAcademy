@@ -31,6 +31,33 @@ class IntermediateTask extends Model
         return $this->image_paths ?? ($this->image_path ? [$this->image_path] : []);
     }
 
+    public function relatedTasks()
+    {
+        return static::query()->where(function ($query) {
+            $query->whereIn('id', \DB::table('intermediate_task_links')->select('related_task_id')->where('task_id', $this->id))
+                ->orWhereIn('id', \DB::table('intermediate_task_links')->select('task_id')->where('related_task_id', $this->id));
+        });
+    }
+
+    public function syncRelatedTasks(array $ids): void
+    {
+        $ids = array_values(array_diff(array_unique(array_map('intval', $ids)), [$this->id]));
+        \DB::transaction(function () use ($ids) {
+            // Store each pair once, with the smaller ID first. Both sides read the same link.
+            $lockIds = array_unique(array_merge([$this->id], $ids, $this->relatedTasks()->pluck('id')->all()));
+            static::whereIn('id', $lockIds)->orderBy('id')->lockForUpdate()->get();
+            \DB::table('intermediate_task_links')->where(function ($query) use ($ids) {
+                $query->where(fn ($q) => $q->where('task_id', $this->id)->whereNotIn('related_task_id', $ids))
+                    ->orWhere(fn ($q) => $q->where('related_task_id', $this->id)->whereNotIn('task_id', $ids));
+            })->delete();
+            foreach ($ids as $id) {
+                \DB::table('intermediate_task_links')->insertOrIgnore([
+                    'task_id' => min($this->id, $id), 'related_task_id' => max($this->id, $id),
+                ]);
+            }
+        }, 3);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

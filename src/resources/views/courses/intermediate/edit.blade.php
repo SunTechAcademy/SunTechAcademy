@@ -38,6 +38,7 @@
                     </div>
 
                     <x-task-images :paths="$task->attachmentPaths()" />
+                    <x-related-task-picker :tasks="$relatedOptions" :selected="$selectedRelated" />
 
                     <div class="flex justify-end pt-4">
                         <button type="submit" class="bg-orange-600 hover:bg-orange-700 text-white font-bold py-2.5 px-6 rounded-lg text-sm transition shadow">

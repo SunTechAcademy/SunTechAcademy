@@ -111,4 +111,24 @@
 .intermediate-preparation .course-card-action { grid-column: 2; grid-row: 1 / 4; align-self: center; margin: 0; font-size: 12px; }
 @media(max-width:600px) { .intermediate-preparation { padding: 4px 18px; } .intermediate-preparation .course-resource { grid-template-columns: minmax(0, 1fr); } .intermediate-preparation .course-card-action { grid-column: 1; grid-row: auto; margin-top: 8px; } }
 .intermediate-sidebar .course-stats > .course-stat:only-child { grid-column: 1 / -1; }
+.assigned-tasks { padding: 26px; border: 1px solid #d8e8e2; border-radius: 24px; background: linear-gradient(135deg, #f0faf6, #fff 65%); box-shadow: 0 12px 32px #214f3c08; scroll-margin-top: 24px; }
+.assigned-tasks-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.assigned-tasks-heading h2 { margin: 0; font-size: 22px; font-weight: 750; }
+.assigned-tasks-count { flex-shrink: 0; font-size: 32px; font-weight: 750; color: #266451; }
+.assigned-tasks-count small { font-size: 13px; font-weight: 600; }
+.assigned-tasks-list { margin-top: 20px; display: grid; gap: 10px; }
+.assigned-task { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px; border: 1px solid #e2eae6; border-radius: 16px; background: #fff; transition: border-color .2s, box-shadow .2s; }
+.assigned-task:hover { border-color: #86b6a5; box-shadow: 0 4px 16px #26645110; }
+.assigned-task:focus-visible { outline: 3px solid #3e8574; outline-offset: 3px; }
+.assigned-task-content { min-width: 0; }
+.assigned-task-meta { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; color: #65776e; font-size: 12px; }
+.assigned-task-status { color: #846019; background: #fff5da; padding: 3px 9px; border-radius: 999px; }
+.assigned-task h3 { margin: 8px 0 0; font-size: 15px; font-weight: 700; overflow-wrap: anywhere; }
+.assigned-task-action { color: #266451; font-weight: 700; font-size: 12px; flex-shrink: 0; }
+.assigned-tasks-empty { padding: 22px 0 6px; }
+.assigned-tasks-empty strong { font-size: 15px; }
+.assigned-tasks-empty p { margin-top: 8px; }
+.assigned-tasks-pagination { margin-top: 20px; }
+#course-phases { scroll-margin-top: 24px; }
+@media(max-width:600px) { .assigned-tasks { padding: 20px 16px; } .assigned-tasks-heading h2 { font-size: 19px; } .assigned-task { align-items: flex-start; flex-direction: column; gap: 10px; } .assigned-task-action { align-self: flex-end; } }
 </style>

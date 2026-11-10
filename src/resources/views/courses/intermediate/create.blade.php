@@ -21,6 +21,7 @@
                 <div class="task-section-heading"><span>02</span><div><h2>取り組む内容</h2><p>目的・作業内容・完了条件を具体的に記載しましょう。</p></div></div>
                 <div class="task-field"><label for="description">詳細・完了条件 <span>必須</span></label><x-task-editor /></div>
                 <x-task-images />
+                <x-related-task-picker :tasks="$relatedOptions" />
             </section>
             <div class="task-form-footer"><p>発行すると、選択した担当者の「担当中」タスクになります。</p><div><a class="task-back" href="{{ route('courses.intermediate.index') }}">キャンセル</a><button type="submit" class="course-button">タスクを発行する →</button></div></div>
         </form>

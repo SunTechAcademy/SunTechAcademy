@@ -1,108 +1,22 @@
 <x-app-layout>
-    <x-slot name="header">
-        <div class="flex justify-between items-center">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ $phases[$task->phase] }}：{{ $task->title }}
-            </h2>
-            <a href="{{ route('courses.intermediate.phase', ['phase' => $task->phase]) }}" class="text-sm font-bold text-gray-600 hover:text-gray-900">
-                ← タスク一覧へ戻る
-            </a>
-        </div>
-    </x-slot>
-
-    <div class="py-12">
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                
-                @if(count($task->attachmentPaths()))
-                    <div class="grid grid-cols-2 gap-4 p-4 bg-gray-50 border-b">
-                        @foreach($task->attachmentPaths() as $path)
-                            <a href="{{ Storage::disk('public')->url($path) }}" target="_blank" rel="noopener noreferrer"><img src="{{ Storage::disk('public')->url($path) }}" alt="参考画像 {{ $loop->iteration }}" class="w-full h-48 object-contain rounded" loading="lazy"></a>
-                        @endforeach
-                    </div>
-                @endif
-
-                <div class="p-8 space-y-6">
-                    <div class="flex items-center space-x-2">
-                        <span class="px-3 py-1 bg-orange-100 text-orange-800 text-xs font-bold rounded-full">
-                            {{ $phases[$task->phase] }}フェーズ
-                        </span>
-                        
-                        @if($isCompleted)
-                            <span class="px-3 py-1 bg-green-100 text-green-800 text-xs font-bold rounded-full">
-                                ✓ 完了（担当者: {{ $task->completedUsers->first()->name ?? '不明' }}）
-                            </span>
-                        @elseif($isAssigned)
-                            <span class="px-3 py-1 bg-amber-100 text-amber-800 text-xs font-bold rounded-full">
-                                ⏳ 担当中（担当者: {{ $task->completedUsers->first()->name ?? '不明' }}）
-                            </span>
-                        @else
-                            <span class="px-3 py-1 bg-gray-100 text-gray-600 text-xs font-bold rounded-full">
-                                💤 未対応（担当者なし）
-                            </span>
-                        @endif
-                        
-                        <span class="text-xs text-gray-500 pl-2">
-                            作成者: <strong class="text-gray-700">{{ $task->user->name ?? '不明' }}</strong>
-                        </span>
-                    </div>
-
-                    <div>
-                        <h3 class="text-lg font-bold text-gray-800 border-b pb-2 mb-3">📋 実務要求・作業内容詳細</h3>
-                        <x-task-content-styles />
-                        @if($task->description_format === 'markdown')
-                            <div class="task-rich-text">{!! \App\Support\TaskMarkdown::render($task->description) !!}</div>
-                        @else
-                            <p class="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">{{ $task->description }}</p>
-                        @endif
-                    </div>
-
-                    <div class="pt-6 border-t border-gray-100 flex justify-between items-center">
-                        <div>
-                            @can('manage-tasks')
-                                <a href="{{ route('courses.intermediate.edit_task', ['id' => $task->id]) }}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-xs mr-2 transition shadow-sm">
-                                    編集
-                                </a>
-                                <form action="{{ route('courses.intermediate.destroy_task', ['id' => $task->id]) }}" method="POST" class="inline-block" onsubmit="return confirm('本当にこのタスクを削除しますか？');">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded text-xs transition shadow-sm">
-                                        削除
-                                    </button>
-                                </form>
-                            @endcan
-                        </div>
-                        <div>
-                            @if($task->status === 'incomplete')
-                                <form action="{{ route('courses.intermediate.assign_task', ['id' => $task->id]) }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 px-8 rounded-lg shadow-md hover:shadow transition-all text-sm">
-                                        このタスクを担当する
-                                    </button>
-                                </form>
-                            @elseif($task->status === 'assigned')
-                                @if($isMyTask)
-                                    <form action="{{ route('courses.intermediate.complete_task', ['id' => $task->id]) }}" method="POST">
-                                        @csrf
-                                        <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg shadow-md hover:shadow transition-all text-sm">
-                                            この実務タスクを完了状態にする
-                                        </button>
-                                    </form>
-                                @else
-                                    <button disabled class="bg-gray-200 text-gray-400 font-bold py-3 px-8 rounded-lg text-sm cursor-not-allowed">
-                                        他のユーザーが担当中です
-                                    </button>
-                                @endif
-                            @else
-                                <button disabled class="bg-gray-200 text-gray-400 font-bold py-3 px-8 rounded-lg text-sm cursor-not-allowed">
-                                    完了済みタスクです
-                                </button>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
+    <x-slot name="header"><h2 class="font-semibold text-xl text-gray-800">{{ $phases[$task->phase] }} · タスク詳細</h2></x-slot>
+    <x-course-page-styles /><x-task-content-styles />
+    <div class="course-page is-intermediate"><div class="course-container">
+        <a class="detail-back" href="{{ route('courses.intermediate.phase', $task->phase) }}">← {{ $phases[$task->phase] }}のタスク一覧へ</a>
+        @if(session('success'))<p class="course-notice" role="status">{{ session('success') }}</p>@endif
+        <div class="detail-heading"><p class="course-eyebrow">TASK #{{ str_pad($task->id, 3, '0', STR_PAD_LEFT) }} / {{ strtoupper($task->phase) }}</p><h1>{{ $task->title }}</h1><div class="detail-tags"><span>{{ $phases[$task->phase] }}</span><span class="detail-status {{ $isCompleted ? 'is-complete' : '' }}">{{ $isCompleted ? '✓ 完了' : ($isAssigned ? '● 担当中' : '未対応') }}</span>@if($isMyTask)<span>あなたの担当</span>@endif</div></div>
+        <div class="detail-layout"><div class="detail-main">
+            <section class="detail-panel"><p class="course-eyebrow">TASK BRIEF</p><h2>取り組む内容</h2>@if($task->description_format === 'markdown')<div class="task-rich-text">{!! \App\Support\TaskMarkdown::render($task->description) !!}</div>@else<p class="detail-plain">{{ $task->description }}</p>@endif</section>
+            <section class="detail-panel"><div class="detail-section-title"><h2>参考画像</h2><span>{{ count($task->attachmentPaths()) }}枚</span></div>@if(count($task->attachmentPaths()))<div class="detail-images">@foreach($task->attachmentPaths() as $path)<a href="{{ Storage::disk('public')->url($path) }}" target="_blank" rel="noopener noreferrer"><img src="{{ Storage::disk('public')->url($path) }}" alt="参考画像 {{ $loop->iteration }}" loading="lazy"><span>画像 {{ $loop->iteration }} を拡大 ↗</span></a>@endforeach</div>@else<p class="course-muted">参考画像は添付されていません。</p>@endif</section>
+            <section class="detail-panel"><div class="detail-section-title"><h2>関連タスク</h2><span>{{ $relatedTasks->count() }}件</span></div><p class="course-muted" style="margin-bottom:18px">関連する作業や前後の工程を、ここから確認できます。</p><div class="detail-relations">@forelse($relatedTasks as $related)<a href="{{ route('courses.intermediate.show_task', $related->id) }}"><div><small>#{{ $related->id }} · {{ $phases[$related->phase] ?? $related->phase }}</small><strong>{{ $related->title }}</strong></div><span>{{ ['assigned'=>'担当中','completed'=>'✓ 完了','incomplete'=>'未対応'][$related->status] ?? $related->status }} ↗</span></a>@empty<p class="course-muted">関連タスクはまだ登録されていません。</p>@endforelse</div>@can('manage-tasks')<a class="detail-back" style="margin-top:16px" href="{{ route('courses.intermediate.edit_task',$task->id) }}">関連タスクを編集 →</a>@endcan</section>
+        </div><aside class="detail-sidebar" aria-label="タスク情報と操作">
+            <section class="detail-panel"><p class="course-eyebrow">TASK INFORMATION</p><h2>タスク情報</h2><dl><dt>担当者</dt><dd>{{ $task->completedUsers->pluck('name')->join('、') ?: '担当者未定' }}</dd><dt>発行者</dt><dd>{{ $task->user->name ?? '不明・退会済み' }}</dd><dt>発行日</dt><dd>{{ $task->created_at->format('Y/m/d') }}</dd><dt>最終更新</dt><dd>{{ $task->updated_at->format('Y/m/d H:i') }}</dd></dl>
+                <div class="detail-work-action">@if($task->status === 'incomplete')<p>担当して実践を始めましょう。</p><form method="POST" action="{{ route('courses.intermediate.assign_task',$task->id) }}">@csrf<button class="course-button" type="submit">このタスクを担当する →</button></form>@elseif($isAssigned && $isMyTask)<p>作業内容と完了条件を確認してから、完了にしましょう。</p><form method="POST" action="{{ route('courses.intermediate.complete_task',$task->id) }}">@csrf<button class="course-button" type="submit">タスクを完了する ✓</button></form>@elseif($isCompleted)<div class="detail-completed">✦ 完了したタスクです</div>@else<p>現在、ほかのユーザーが担当しています。</p>@endif</div>
+            </section>
+            @can('manage-tasks')<section class="detail-panel detail-management"><h2>タスク管理</h2><a class="detail-edit" href="{{ route('courses.intermediate.edit_task',$task->id) }}">内容・関連タスクを編集 ↗</a><form method="POST" action="{{ route('courses.intermediate.destroy_task',$task->id) }}" onsubmit="return confirm('このタスクを削除しますか？関連付けも解除されます。関連するタスク本体は削除されません。');">@csrf @method('DELETE')<button type="submit" class="detail-delete">タスクを削除</button></form></section>@endcan
+        </aside></div>
+    </div></div>
+    <style>
+        .detail-back{display:inline-block;font-size:12px;font-weight:600;color:#78978b;padding:8px 0}.detail-back:hover{text-decoration:underline}.detail-heading{margin:28px 0 32px}.detail-heading h1{font-size:clamp(23px,3vw,32px);font-weight:700;color:#476254;line-height:1.6;overflow-wrap:anywhere;margin-bottom:20px}.detail-tags{display:flex;flex-wrap:wrap;gap:10px}.detail-tags>span{font-size:11px;border-radius:9px;padding:7px 12px;background:#edf3ef;color:#829d8c}.detail-tags>.detail-status{background:#fff3df;color:#b69b68}.detail-tags>.is-complete{background:linear-gradient(110deg,#dff1e8,#e8ebfa,#f2e6f5);color:#7c9b89}.detail-layout{display:grid;grid-template-columns:minmax(0,1fr) 310px;align-items:start;gap:24px}.detail-main,.detail-sidebar{min-width:0}.detail-sidebar{position:sticky;top:24px}.detail-panel{padding:28px;border:1px solid #e5ece7;border-radius:21px;background:#fff;margin-bottom:22px}.detail-panel h2{font-size:16px;font-weight:700;color:#658473;margin-bottom:22px}.detail-section-title{display:flex;align-items:center;gap:12px;margin-bottom:18px}.detail-section-title h2{margin:0}.detail-section-title>span{font-size:11px;border-radius:8px;background:#f0f5f1;color:#96aa9b;padding:4px 8px}.detail-plain{white-space:pre-wrap;overflow-wrap:anywhere;font-size:14px;line-height:1.9;color:#596f61}.detail-images{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.detail-images a{min-width:0;border:1px solid #e8eee9;border-radius:14px;overflow:hidden;background:#fafcfb}.detail-images img{width:100%;height:180px;object-fit:contain}.detail-images span{display:block;padding:12px;font-size:11px;color:#8da593}.detail-relations>a{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 0;border-bottom:1px solid #eef3ef}.detail-relations>a:last-child{border-bottom:0}.detail-relations small{font-size:10px;color:#a0b1a5}.detail-relations strong{display:block;font-size:13px;font-weight:600;color:#6c8b78;margin-top:6px;overflow-wrap:anywhere}.detail-relations>a>span{flex-shrink:0;font-size:10px;color:#98ad9e}.detail-relations a:hover strong{text-decoration:underline}.detail-sidebar dt{font-size:10px;color:#a5b1a8;margin-top:18px}.detail-sidebar dd{font-size:13px;color:#6f8777;margin-top:6px;overflow-wrap:anywhere}.detail-work-action{border-top:1px solid #edf2ee;margin-top:24px;padding-top:20px}.detail-work-action p{font-size:11px;line-height:1.9;color:#9aac9e;margin-bottom:16px}.detail-work-action .course-button{width:100%;white-space:normal}.detail-completed{padding:16px;border-radius:12px;background:linear-gradient(110deg,#eaf6ef,#edf0fc,#f5ecf6);font-size:12px;text-align:center;color:#89a28e}.detail-edit{display:block;padding:12px;background:#eef4f0;border-radius:10px;color:#80a18b;font-size:12px;text-align:center}.detail-delete{font-size:11px;color:#bb8f9b;width:100%;padding:12px;margin-top:10px;border-radius:10px}.detail-delete:hover{background:#fcf1f4}.detail-panel a:focus-visible,.detail-panel button:focus-visible{outline:3px solid #b0c9ba;outline-offset:3px}@media(max-width:900px){.detail-layout{grid-template-columns:1fr}.detail-sidebar{position:static;grid-row:1}.detail-sidebar dl{display:grid;grid-template-columns:90px minmax(0,1fr);gap:10px}.detail-sidebar dt,.detail-sidebar dd{margin:0}.detail-sidebar .detail-panel{padding:22px}.detail-management{margin-top:0}}@media(max-width:480px){.detail-panel{padding:22px 18px}.detail-images{grid-template-columns:1fr}.detail-relations>a{align-items:flex-start;flex-direction:column;gap:8px}}
+    </style>
 </x-app-layout>

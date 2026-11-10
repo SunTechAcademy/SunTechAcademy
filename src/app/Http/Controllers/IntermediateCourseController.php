@@ -47,6 +47,14 @@ class IntermediateCourseController extends Controller
             ->pluck('total', 'phase')
             ->toArray();
 
+        $assignedTasks = $user->completedIntermediateTasks()
+            ->where('status', 'assigned')
+            ->orderByDesc('intermediate_tasks.updated_at')
+            ->orderByDesc('intermediate_tasks.id')
+            ->paginate(10, ['intermediate_tasks.*'], 'assigned_page')
+            ->withQueryString()
+            ->fragment('assigned-tasks');
+
         $phases = IntermediateTask::phaseLabels();
         $definitions = IntermediateTask::phaseDefinitions();
         // 各カードへ渡す用のURLリストを取得
@@ -58,7 +66,7 @@ class IntermediateCourseController extends Controller
             'operation'      => 15,
         ];
 
-        return view('courses.intermediate.index', compact('phases', 'definitions', 'taskCounts', 'completedCounts', 'norms', 'urls'));
+        return view('courses.intermediate.index', compact('phases', 'definitions', 'taskCounts', 'completedCounts', 'norms', 'urls', 'assignedTasks'));
     }
 
     /**
@@ -89,7 +97,8 @@ class IntermediateCourseController extends Controller
         $isAssigned = ($task->status === 'assigned');
         $isMyTask = $task->completedUsers->contains(Auth::id());
 
-        return view('courses.intermediate.show', compact('task', 'phases', 'isCompleted', 'isAssigned', 'isMyTask'));
+        $relatedTasks = $task->relatedTasks()->orderByDesc('id')->get();
+        return view('courses.intermediate.show', compact('task', 'phases', 'isCompleted', 'isAssigned', 'isMyTask', 'relatedTasks'));
     }
 
     /**
@@ -166,7 +175,8 @@ class IntermediateCourseController extends Controller
         $assignees = Auth::user()->isAdmin()
             ? \App\Models\User::orderBy('name')->get(['id', 'name', 'email'])
             : collect([Auth::user()]);
-        return view('courses.intermediate.create', compact('phases', 'assignees'));
+        $relatedOptions = IntermediateTask::orderByDesc('id')->get(['id','title','phase','status']);
+        return view('courses.intermediate.create', compact('phases', 'assignees', 'relatedOptions'));
     }
 
     /**
@@ -183,6 +193,8 @@ class IntermediateCourseController extends Controller
             'images' => 'nullable|array|max:10',
             'images.*' => 'required|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
             'description_format' => 'nullable|in:plain,markdown',
+            'related_task_ids' => 'nullable|array|max:100',
+            'related_task_ids.*' => ['required', 'integer', 'distinct', \Illuminate\Validation\Rule::exists('intermediate_tasks', 'id')],
         ]);
 
         $paths = [];
@@ -202,6 +214,7 @@ class IntermediateCourseController extends Controller
                     'user_id' => Auth::id(),
                 ]);
                 $task->completedUsers()->attach($validated['assignee_id']);
+                $task->syncRelatedTasks($validated['related_task_ids'] ?? []);
             });
         } catch (\Throwable $exception) {
             Storage::disk('public')->delete($paths);
@@ -225,7 +238,9 @@ class IntermediateCourseController extends Controller
         }
 
         $phases = IntermediateTask::phaseLabels();
-        return view('courses.intermediate.edit', compact('task', 'phases'));
+        $relatedOptions = IntermediateTask::where('id', '!=', $task->id)->orderByDesc('id')->get(['id','title','phase','status']);
+        $selectedRelated = $task->relatedTasks()->pluck('id')->all();
+        return view('courses.intermediate.edit', compact('task', 'phases', 'relatedOptions', 'selectedRelated'));
     }
 
     /**
@@ -246,6 +261,8 @@ class IntermediateCourseController extends Controller
             'images' => 'nullable|array|max:10',
             'images.*' => 'required|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
             'description_format' => 'nullable|in:plain,markdown',
+            'related_task_ids' => 'nullable|array|max:100',
+            'related_task_ids.*' => ['required', 'integer', 'distinct', \Illuminate\Validation\Rule::exists('intermediate_tasks', 'id'), \Illuminate\Validation\Rule::notIn([$task->id])],
         ]);
 
         $request->validate(['remove_images' => 'nullable|array', 'remove_images.*' => ['string', \Illuminate\Validation\Rule::in($task->attachmentPaths())]]);
@@ -260,14 +277,17 @@ class IntermediateCourseController extends Controller
                 $added[] = $image->store('intermediate_tasks', 'public');
             }
             $paths = array_merge($retained, $added);
-            $task->update([
-                'phase' => $request->phase,
-                'title' => $request->title,
-                'description' => $request->description,
-                'description_format' => $request->input('description_format', $task->description_format),
-                'image_paths' => $paths,
-                'image_path' => $paths[0] ?? null,
-            ]);
+            \DB::transaction(function () use ($task, $request, $paths) {
+                $task->update([
+                    'phase' => $request->phase,
+                    'title' => $request->title,
+                    'description' => $request->description,
+                    'description_format' => $request->input('description_format', $task->description_format),
+                    'image_paths' => $paths,
+                    'image_path' => $paths[0] ?? null,
+                ]);
+                $task->syncRelatedTasks($request->input('related_task_ids', []));
+            });
         } catch (\Throwable $exception) {
             Storage::disk('public')->delete($added);
             throw $exception;

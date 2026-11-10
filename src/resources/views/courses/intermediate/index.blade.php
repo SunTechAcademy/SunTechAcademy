@@ -6,13 +6,31 @@
         @if(session('success'))<p class="course-notice" role="status">{{ session('success') }}</p>@endif
         <div class="intermediate-layout">
         <div class="intermediate-main">
+        <section class="assigned-tasks" id="assigned-tasks" aria-labelledby="assigned-tasks-title">
+            <div class="assigned-tasks-heading">
+                <div><p class="course-eyebrow">MY TASKS / CONTINUE YOUR WORK</p><h2 id="assigned-tasks-title">あなたの担当中タスク</h2></div>
+                <span class="assigned-tasks-count">{{ $assignedTasks->total() }}<small> 件</small></span>
+            </div>
+            <p class="course-muted">今取り組んでいるタスクを、すべてのフェーズからまとめて確認できます。</p>
+            <div class="assigned-tasks-list">
+                @forelse($assignedTasks as $task)
+                    <a class="assigned-task" href="{{ route('courses.intermediate.show_task', $task->id) }}">
+                        <div class="assigned-task-content"><div class="assigned-task-meta"><span>{{ $phases[$task->phase] ?? $task->phase }}</span><span class="assigned-task-status">● 担当中</span><span>#{{ $task->id }}</span></div><h3>{{ $task->title }}</h3></div>
+                        <span class="assigned-task-action">詳細へ <span aria-hidden="true">→</span></span>
+                    </a>
+                @empty
+                    <div class="assigned-tasks-empty"><strong>現在、担当中のタスクはありません</strong><p class="course-muted">取り組むフェーズからタスクを選ぶと、ここに表示されます。</p><a href="#course-phases" class="course-card-action">フェーズからタスクを探す →</a></div>
+                @endforelse
+            </div>
+            @if($assignedTasks->hasPages())<div class="assigned-tasks-pagination">{{ $assignedTasks->links() }}</div>@endif
+        </section>
         <h2 class="course-section-title">実践を始める準備</h2>
         <div class="intermediate-preparation">
-            <a class="course-resource" href="https://github.com/SunTechAcademy/SunTechAcademy" target="_blank" rel="noopener noreferrer"><p class="course-eyebrow">01 / SETUP</p><h3>開発環境を整える</h3><p class="course-muted">READMEを確認しながら環境構築。実務への最初の一歩を踏み出そう。</p><span class="course-card-action">GitHubリポジトリを開く ↗</span></a>
-            <a class="course-resource" href="{{ route('courses.intermediate.documents') }}"><p class="course-eyebrow">02 / DOCUMENTS</p><h3>設計を理解する</h3><p class="course-muted">要件定義・基本設計・ER図など、開発に必要なドキュメントをここから。</p><span class="course-card-action">ドキュメント一覧へ →</span></a>
-            <a class="course-resource" href="{{ route('courses.intermediate.rules') }}"><p class="course-eyebrow">03 / GUIDELINES</p><h3>チームの進め方を知る</h3><p class="course-muted">実務に取り組む前に、運用ルールと開発の流れを確認しましょう。</p><span class="course-card-action">運用ルールを見る →</span></a>
+            <a class="course-resource" href="{{ route('courses.intermediate.rules') }}"><p class="course-eyebrow">01 / GUIDELINES</p><h3>チームの進め方を知る</h3><p class="course-muted">実務に取り組む前に、運用ルールと開発の流れを確認しましょう。</p><span class="course-card-action">運用ルールを見る →</span></a>
+            <a class="course-resource" href="https://github.com/SunTechAcademy/SunTechAcademy" target="_blank" rel="noopener noreferrer"><p class="course-eyebrow">02 / SETUP</p><h3>開発環境を整える</h3><p class="course-muted">READMEを確認しながら環境構築。実務への最初の一歩を踏み出そう。</p><span class="course-card-action">GitHubリポジトリを開く ↗</span></a>
+            <a class="course-resource" href="{{ route('courses.intermediate.documents') }}"><p class="course-eyebrow">03 / DOCUMENTS</p><h3>設計を理解する</h3><p class="course-muted">要件定義・基本設計・ER図など、開発に必要なドキュメントをここから。</p><span class="course-card-action">ドキュメント一覧へ →</span></a>
         </div>
-        <h2 class="course-section-title">取り組むフェーズを選ぼう</h2>
+        <h2 class="course-section-title" id="course-phases">取り組むフェーズを選ぼう</h2>
         <div class="course-phase-grid">
             @foreach($phases as $key => $label)
                 <a class="course-phase" href="{{ route('courses.intermediate.phase', ['phase' => $key]) }}"><p class="course-eyebrow">PHASE {{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</p><h3>{{ $label }}</h3><p class="course-muted" style="margin-bottom: 12px;">あなたの完了 {{ $completedCounts[$key] ?? 0 }} / 登録 {{ $taskCounts[$key] ?? 0 }} 件</p><p class="course-muted">{{ $definitions[$key] }}</p><span class="course-card-action">タスク一覧を見る →</span></a>

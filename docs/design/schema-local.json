@@ -1,0 +1,1769 @@
+{
+    "driver": "mysql",
+    "tables": {
+        "admins": {
+            "columns": [
+                {
+                    "name": "id",
+                    "type_name": "bigint",
+                    "type": "bigint unsigned",
+                    "collation": null,
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": true,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "name",
+                    "type_name": "varchar",
+                    "type": "varchar(255)",
+                    "collation": "utf8mb4_unicode_ci",
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "email",
+                    "type_name": "varchar",
+                    "type": "varchar(255)",
+                    "collation": "utf8mb4_unicode_ci",
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "email_verified_at",
+                    "type_name": "timestamp",
+                    "type": "timestamp",
+                    "collation": null,
+                    "nullable": true,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "password",
+                    "type_name": "varchar",
+                    "type": "varchar(255)",
+                    "collation": "utf8mb4_unicode_ci",
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "remember_token",
+                    "type_name": "varchar",
+                    "type": "varchar(100)",
+                    "collation": "utf8mb4_unicode_ci",
+                    "nullable": true,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "created_at",
+                    "type_name": "timestamp",
+                    "type": "timestamp",
+                    "collation": null,
+                    "nullable": true,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "updated_at",
+                    "type_name": "timestamp",
+                    "type": "timestamp",
+                    "collation": null,
+                    "nullable": true,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                }
+            ],
+            "indexes": [
+                {
+                    "name": "admins_email_unique",
+                    "columns": [
+                        "email"
+                    ],
+                    "type": "btree",
+                    "unique": true,
+                    "primary": false
+                },
+                {
+                    "name": "primary",
+                    "columns": [
+                        "id"
+                    ],
+                    "type": "btree",
+                    "unique": true,
+                    "primary": true
+                }
+            ],
+            "foreign_keys": []
+        },
+        "cache": {
+            "columns": [
+                {
+                    "name": "key",
+                    "type_name": "varchar",
+                    "type": "varchar(255)",
+                    "collation": "utf8mb4_unicode_ci",
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "value",
+                    "type_name": "mediumtext",
+                    "type": "mediumtext",
+                    "collation": "utf8mb4_unicode_ci",
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "expiration",
+                    "type_name": "int",
+                    "type": "int",
+                    "collation": null,
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                }
+            ],
+            "indexes": [
+                {
+                    "name": "cache_expiration_index",
+                    "columns": [
+                        "expiration"
+                    ],
+                    "type": "btree",
+                    "unique": false,
+                    "primary": false
+                },
+                {
+                    "name": "primary",
+                    "columns": [
+                        "key"
+                    ],
+                    "type": "btree",
+                    "unique": true,
+                    "primary": true
+                }
+            ],
+            "foreign_keys": []
+        },
+        "cache_locks": {
+            "columns": [
+                {
+                    "name": "key",
+                    "type_name": "varchar",
+                    "type": "varchar(255)",
+                    "collation": "utf8mb4_unicode_ci",
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "owner",
+                    "type_name": "varchar",
+                    "type": "varchar(255)",
+                    "collation": "utf8mb4_unicode_ci",
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "expiration",
+                    "type_name": "int",
+                    "type": "int",
+                    "collation": null,
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                }
+            ],
+            "indexes": [
+                {
+                    "name": "cache_locks_expiration_index",
+                    "columns": [
+                        "expiration"
+                    ],
+                    "type": "btree",
+                    "unique": false,
+                    "primary": false
+                },
+                {
+                    "name": "primary",
+                    "columns": [
+                        "key"
+                    ],
+                    "type": "btree",
+                    "unique": true,
+                    "primary": true
+                }
+            ],
+            "foreign_keys": []
+        },
+        "chapter_user": {
+            "columns": [
+                {
+                    "name": "id",
+                    "type_name": "bigint",
+                    "type": "bigint unsigned",
+                    "collation": null,
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": true,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "user_id",
+                    "type_name": "bigint",
+                    "type": "bigint unsigned",
+                    "collation": null,
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "chapter_id",
+                    "type_name": "bigint",
+                    "type": "bigint unsigned",
+                    "collation": null,
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "completed_at",
+                    "type_name": "timestamp",
+                    "type": "timestamp",
+                    "collation": null,
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                }
+            ],
+            "indexes": [
+                {
+                    "name": "chapter_user_chapter_id_foreign",
+                    "columns": [
+                        "chapter_id"
+                    ],
+                    "type": "btree",
+                    "unique": false,
+                    "primary": false
+                },
+                {
+                    "name": "chapter_user_user_id_chapter_id_unique",
+                    "columns": [
+                        "user_id",
+                        "chapter_id"
+                    ],
+                    "type": "btree",
+                    "unique": true,
+                    "primary": false
+                },
+                {
+                    "name": "primary",
+                    "columns": [
+                        "id"
+                    ],
+                    "type": "btree",
+                    "unique": true,
+                    "primary": true
+                }
+            ],
+            "foreign_keys": [
+                {
+                    "name": "chapter_user_chapter_id_foreign",
+                    "columns": [
+                        "chapter_id"
+                    ],
+                    "foreign_schema": "SunTechAcademy",
+                    "foreign_table": "chapters",
+                    "foreign_columns": [
+                        "id"
+                    ],
+                    "on_update": "no action",
+                    "on_delete": "cascade"
+                },
+                {
+                    "name": "chapter_user_user_id_foreign",
+                    "columns": [
+                        "user_id"
+                    ],
+                    "foreign_schema": "SunTechAcademy",
+                    "foreign_table": "users",
+                    "foreign_columns": [
+                        "id"
+                    ],
+                    "on_update": "no action",
+                    "on_delete": "cascade"
+                }
+            ]
+        },
+        "chapters": {
+            "columns": [
+                {
+                    "name": "id",
+                    "type_name": "bigint",
+                    "type": "bigint unsigned",
+                    "collation": null,
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": true,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "lesson_id",
+                    "type_name": "bigint",
+                    "type": "bigint unsigned",
+                    "collation": null,
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "title",
+                    "type_name": "varchar",
+                    "type": "varchar(255)",
+                    "collation": "utf8mb4_unicode_ci",
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "content",
+                    "type_name": "longtext",
+                    "type": "longtext",
+                    "collation": "utf8mb4_unicode_ci",
+                    "nullable": true,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "is_assignment",
+                    "type_name": "tinyint",
+                    "type": "tinyint",
+                    "collation": null,
+                    "nullable": false,
+                    "default": "0",
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "sort_order",
+                    "type_name": "int",
+                    "type": "int",
+                    "collation": null,
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "created_at",
+                    "type_name": "timestamp",
+                    "type": "timestamp",
+                    "collation": null,
+                    "nullable": true,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "updated_at",
+                    "type_name": "timestamp",
+                    "type": "timestamp",
+                    "collation": null,
+                    "nullable": true,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                }
+            ],
+            "indexes": [
+                {
+                    "name": "chapters_lesson_id_foreign",
+                    "columns": [
+                        "lesson_id"
+                    ],
+                    "type": "btree",
+                    "unique": false,
+                    "primary": false
+                },
+                {
+                    "name": "primary",
+                    "columns": [
+                        "id"
+                    ],
+                    "type": "btree",
+                    "unique": true,
+                    "primary": true
+                }
+            ],
+            "foreign_keys": [
+                {
+                    "name": "chapters_lesson_id_foreign",
+                    "columns": [
+                        "lesson_id"
+                    ],
+                    "foreign_schema": "SunTechAcademy",
+                    "foreign_table": "lessons",
+                    "foreign_columns": [
+                        "id"
+                    ],
+                    "on_update": "no action",
+                    "on_delete": "cascade"
+                }
+            ]
+        },
+        "courses": {
+            "columns": [
+                {
+                    "name": "id",
+                    "type_name": "bigint",
+                    "type": "bigint unsigned",
+                    "collation": null,
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": true,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "title",
+                    "type_name": "varchar",
+                    "type": "varchar(255)",
+                    "collation": "utf8mb4_unicode_ci",
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "description",
+                    "type_name": "text",
+                    "type": "text",
+                    "collation": "utf8mb4_unicode_ci",
+                    "nullable": true,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "image_path",
+                    "type_name": "varchar",
+                    "type": "varchar(255)",
+                    "collation": "utf8mb4_unicode_ci",
+                    "nullable": true,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "created_at",
+                    "type_name": "timestamp",
+                    "type": "timestamp",
+                    "collation": null,
+                    "nullable": true,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "updated_at",
+                    "type_name": "timestamp",
+                    "type": "timestamp",
+                    "collation": null,
+                    "nullable": true,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                }
+            ],
+            "indexes": [
+                {
+                    "name": "primary",
+                    "columns": [
+                        "id"
+                    ],
+                    "type": "btree",
+                    "unique": true,
+                    "primary": true
+                }
+            ],
+            "foreign_keys": []
+        },
+        "failed_jobs": {
+            "columns": [
+                {
+                    "name": "id",
+                    "type_name": "bigint",
+                    "type": "bigint unsigned",
+                    "collation": null,
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": true,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "uuid",
+                    "type_name": "varchar",
+                    "type": "varchar(255)",
+                    "collation": "utf8mb4_unicode_ci",
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "connection",
+                    "type_name": "text",
+                    "type": "text",
+                    "collation": "utf8mb4_unicode_ci",
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "queue",
+                    "type_name": "text",
+                    "type": "text",
+                    "collation": "utf8mb4_unicode_ci",
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "payload",
+                    "type_name": "longtext",
+                    "type": "longtext",
+                    "collation": "utf8mb4_unicode_ci",
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "exception",
+                    "type_name": "longtext",
+                    "type": "longtext",
+                    "collation": "utf8mb4_unicode_ci",
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "failed_at",
+                    "type_name": "timestamp",
+                    "type": "timestamp",
+                    "collation": null,
+                    "nullable": false,
+                    "default": "CURRENT_TIMESTAMP",
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                }
+            ],
+            "indexes": [
+                {
+                    "name": "failed_jobs_uuid_unique",
+                    "columns": [
+                        "uuid"
+                    ],
+                    "type": "btree",
+                    "unique": true,
+                    "primary": false
+                },
+                {
+                    "name": "primary",
+                    "columns": [
+                        "id"
+                    ],
+                    "type": "btree",
+                    "unique": true,
+                    "primary": true
+                }
+            ],
+            "foreign_keys": []
+        },
+        "intermediate_task_links": {
+            "columns": [
+                {
+                    "name": "task_id",
+                    "type_name": "bigint",
+                    "type": "bigint unsigned",
+                    "collation": null,
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "related_task_id",
+                    "type_name": "bigint",
+                    "type": "bigint unsigned",
+                    "collation": null,
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                }
+            ],
+            "indexes": [
+                {
+                    "name": "intermediate_task_links_related_task_id_index",
+                    "columns": [
+                        "related_task_id"
+                    ],
+                    "type": "btree",
+                    "unique": false,
+                    "primary": false
+                },
+                {
+                    "name": "primary",
+                    "columns": [
+                        "task_id",
+                        "related_task_id"
+                    ],
+                    "type": "btree",
+                    "unique": true,
+                    "primary": true
+                }
+            ],
+            "foreign_keys": [
+                {
+                    "name": "intermediate_task_links_related_task_id_foreign",
+                    "columns": [
+                        "related_task_id"
+                    ],
+                    "foreign_schema": "SunTechAcademy",
+                    "foreign_table": "intermediate_tasks",
+                    "foreign_columns": [
+                        "id"
+                    ],
+                    "on_update": "no action",
+                    "on_delete": "cascade"
+                },
+                {
+                    "name": "intermediate_task_links_task_id_foreign",
+                    "columns": [
+                        "task_id"
+                    ],
+                    "foreign_schema": "SunTechAcademy",
+                    "foreign_table": "intermediate_tasks",
+                    "foreign_columns": [
+                        "id"
+                    ],
+                    "on_update": "no action",
+                    "on_delete": "cascade"
+                }
+            ]
+        },
+        "intermediate_task_user": {
+            "columns": [
+                {
+                    "name": "id",
+                    "type_name": "bigint",
+                    "type": "bigint unsigned",
+                    "collation": null,
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": true,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "user_id",
+                    "type_name": "bigint",
+                    "type": "bigint unsigned",
+                    "collation": null,
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "intermediate_task_id",
+                    "type_name": "bigint",
+                    "type": "bigint unsigned",
+                    "collation": null,
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "completed_at",
+                    "type_name": "timestamp",
+                    "type": "timestamp",
+                    "collation": null,
+                    "nullable": false,
+                    "default": "CURRENT_TIMESTAMP",
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "created_at",
+                    "type_name": "timestamp",
+                    "type": "timestamp",
+                    "collation": null,
+                    "nullable": true,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "updated_at",
+                    "type_name": "timestamp",
+                    "type": "timestamp",
+                    "collation": null,
+                    "nullable": true,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                }
+            ],
+            "indexes": [
+                {
+                    "name": "intermediate_task_user_intermediate_task_id_foreign",
+                    "columns": [
+                        "intermediate_task_id"
+                    ],
+                    "type": "btree",
+                    "unique": false,
+                    "primary": false
+                },
+                {
+                    "name": "intermediate_task_user_user_id_intermediate_task_id_unique",
+                    "columns": [
+                        "user_id",
+                        "intermediate_task_id"
+                    ],
+                    "type": "btree",
+                    "unique": true,
+                    "primary": false
+                },
+                {
+                    "name": "primary",
+                    "columns": [
+                        "id"
+                    ],
+                    "type": "btree",
+                    "unique": true,
+                    "primary": true
+                }
+            ],
+            "foreign_keys": [
+                {
+                    "name": "intermediate_task_user_intermediate_task_id_foreign",
+                    "columns": [
+                        "intermediate_task_id"
+                    ],
+                    "foreign_schema": "SunTechAcademy",
+                    "foreign_table": "intermediate_tasks",
+                    "foreign_columns": [
+                        "id"
+                    ],
+                    "on_update": "no action",
+                    "on_delete": "cascade"
+                },
+                {
+                    "name": "intermediate_task_user_user_id_foreign",
+                    "columns": [
+                        "user_id"
+                    ],
+                    "foreign_schema": "SunTechAcademy",
+                    "foreign_table": "users",
+                    "foreign_columns": [
+                        "id"
+                    ],
+                    "on_update": "no action",
+                    "on_delete": "cascade"
+                }
+            ]
+        },
+        "intermediate_tasks": {
+            "columns": [
+                {
+                    "name": "id",
+                    "type_name": "bigint",
+                    "type": "bigint unsigned",
+                    "collation": null,
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": true,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "user_id",
+                    "type_name": "bigint",
+                    "type": "bigint unsigned",
+                    "collation": null,
+                    "nullable": true,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "phase",
+                    "type_name": "varchar",
+                    "type": "varchar(255)",
+                    "collation": "utf8mb4_unicode_ci",
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "title",
+                    "type_name": "varchar",
+                    "type": "varchar(255)",
+                    "collation": "utf8mb4_unicode_ci",
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "description",
+                    "type_name": "text",
+                    "type": "text",
+                    "collation": "utf8mb4_unicode_ci",
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "image_path",
+                    "type_name": "varchar",
+                    "type": "varchar(255)",
+                    "collation": "utf8mb4_unicode_ci",
+                    "nullable": true,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "status",
+                    "type_name": "varchar",
+                    "type": "varchar(255)",
+                    "collation": "utf8mb4_unicode_ci",
+                    "nullable": false,
+                    "default": "incomplete",
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "created_at",
+                    "type_name": "timestamp",
+                    "type": "timestamp",
+                    "collation": null,
+                    "nullable": true,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "updated_at",
+                    "type_name": "timestamp",
+                    "type": "timestamp",
+                    "collation": null,
+                    "nullable": true,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "image_paths",
+                    "type_name": "json",
+                    "type": "json",
+                    "collation": null,
+                    "nullable": true,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "description_format",
+                    "type_name": "varchar",
+                    "type": "varchar(255)",
+                    "collation": "utf8mb4_unicode_ci",
+                    "nullable": false,
+                    "default": "plain",
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                }
+            ],
+            "indexes": [
+                {
+                    "name": "intermediate_tasks_user_id_foreign",
+                    "columns": [
+                        "user_id"
+                    ],
+                    "type": "btree",
+                    "unique": false,
+                    "primary": false
+                },
+                {
+                    "name": "primary",
+                    "columns": [
+                        "id"
+                    ],
+                    "type": "btree",
+                    "unique": true,
+                    "primary": true
+                }
+            ],
+            "foreign_keys": [
+                {
+                    "name": "intermediate_tasks_user_id_foreign",
+                    "columns": [
+                        "user_id"
+                    ],
+                    "foreign_schema": "SunTechAcademy",
+                    "foreign_table": "users",
+                    "foreign_columns": [
+                        "id"
+                    ],
+                    "on_update": "no action",
+                    "on_delete": "cascade"
+                }
+            ]
+        },
+        "job_batches": {
+            "columns": [
+                {
+                    "name": "id",
+                    "type_name": "varchar",
+                    "type": "varchar(255)",
+                    "collation": "utf8mb4_unicode_ci",
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "name",
+                    "type_name": "varchar",
+                    "type": "varchar(255)",
+                    "collation": "utf8mb4_unicode_ci",
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "total_jobs",
+                    "type_name": "int",
+                    "type": "int",
+                    "collation": null,
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "pending_jobs",
+                    "type_name": "int",
+                    "type": "int",
+                    "collation": null,
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "failed_jobs",
+                    "type_name": "int",
+                    "type": "int",
+                    "collation": null,
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "failed_job_ids",
+                    "type_name": "longtext",
+                    "type": "longtext",
+                    "collation": "utf8mb4_unicode_ci",
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "options",
+                    "type_name": "mediumtext",
+                    "type": "mediumtext",
+                    "collation": "utf8mb4_unicode_ci",
+                    "nullable": true,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "cancelled_at",
+                    "type_name": "int",
+                    "type": "int",
+                    "collation": null,
+                    "nullable": true,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "created_at",
+                    "type_name": "int",
+                    "type": "int",
+                    "collation": null,
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "finished_at",
+                    "type_name": "int",
+                    "type": "int",
+                    "collation": null,
+                    "nullable": true,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                }
+            ],
+            "indexes": [
+                {
+                    "name": "primary",
+                    "columns": [
+                        "id"
+                    ],
+                    "type": "btree",
+                    "unique": true,
+                    "primary": true
+                }
+            ],
+            "foreign_keys": []
+        },
+        "jobs": {
+            "columns": [
+                {
+                    "name": "id",
+                    "type_name": "bigint",
+                    "type": "bigint unsigned",
+                    "collation": null,
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": true,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "queue",
+                    "type_name": "varchar",
+                    "type": "varchar(255)",
+                    "collation": "utf8mb4_unicode_ci",
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "payload",
+                    "type_name": "longtext",
+                    "type": "longtext",
+                    "collation": "utf8mb4_unicode_ci",
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "attempts",
+                    "type_name": "tinyint",
+                    "type": "tinyint unsigned",
+                    "collation": null,
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "reserved_at",
+                    "type_name": "int",
+                    "type": "int unsigned",
+                    "collation": null,
+                    "nullable": true,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "available_at",
+                    "type_name": "int",
+                    "type": "int unsigned",
+                    "collation": null,
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "created_at",
+                    "type_name": "int",
+                    "type": "int unsigned",
+                    "collation": null,
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                }
+            ],
+            "indexes": [
+                {
+                    "name": "jobs_queue_reserved_at_available_at_index",
+                    "columns": [
+                        "queue",
+                        "reserved_at",
+                        "available_at"
+                    ],
+                    "type": "btree",
+                    "unique": false,
+                    "primary": false
+                },
+                {
+                    "name": "primary",
+                    "columns": [
+                        "id"
+                    ],
+                    "type": "btree",
+                    "unique": true,
+                    "primary": true
+                }
+            ],
+            "foreign_keys": []
+        },
+        "lessons": {
+            "columns": [
+                {
+                    "name": "id",
+                    "type_name": "bigint",
+                    "type": "bigint unsigned",
+                    "collation": null,
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": true,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "course_id",
+                    "type_name": "bigint",
+                    "type": "bigint unsigned",
+                    "collation": null,
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "title",
+                    "type_name": "varchar",
+                    "type": "varchar(255)",
+                    "collation": "utf8mb4_unicode_ci",
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "estimated_time",
+                    "type_name": "int",
+                    "type": "int",
+                    "collation": null,
+                    "nullable": false,
+                    "default": "0",
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "sort_order",
+                    "type_name": "int",
+                    "type": "int",
+                    "collation": null,
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "created_at",
+                    "type_name": "timestamp",
+                    "type": "timestamp",
+                    "collation": null,
+                    "nullable": true,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "updated_at",
+                    "type_name": "timestamp",
+                    "type": "timestamp",
+                    "collation": null,
+                    "nullable": true,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                }
+            ],
+            "indexes": [
+                {
+                    "name": "lessons_course_id_foreign",
+                    "columns": [
+                        "course_id"
+                    ],
+                    "type": "btree",
+                    "unique": false,
+                    "primary": false
+                },
+                {
+                    "name": "primary",
+                    "columns": [
+                        "id"
+                    ],
+                    "type": "btree",
+                    "unique": true,
+                    "primary": true
+                }
+            ],
+            "foreign_keys": [
+                {
+                    "name": "lessons_course_id_foreign",
+                    "columns": [
+                        "course_id"
+                    ],
+                    "foreign_schema": "SunTechAcademy",
+                    "foreign_table": "courses",
+                    "foreign_columns": [
+                        "id"
+                    ],
+                    "on_update": "no action",
+                    "on_delete": "cascade"
+                }
+            ]
+        },
+        "login_histories": {
+            "columns": [
+                {
+                    "name": "id",
+                    "type_name": "bigint",
+                    "type": "bigint unsigned",
+                    "collation": null,
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": true,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "user_id",
+                    "type_name": "bigint",
+                    "type": "bigint unsigned",
+                    "collation": null,
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "login_date",
+                    "type_name": "date",
+                    "type": "date",
+                    "collation": null,
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                }
+            ],
+            "indexes": [
+                {
+                    "name": "login_histories_user_id_login_date_unique",
+                    "columns": [
+                        "user_id",
+                        "login_date"
+                    ],
+                    "type": "btree",
+                    "unique": true,
+                    "primary": false
+                },
+                {
+                    "name": "primary",
+                    "columns": [
+                        "id"
+                    ],
+                    "type": "btree",
+                    "unique": true,
+                    "primary": true
+                }
+            ],
+            "foreign_keys": [
+                {
+                    "name": "login_histories_user_id_foreign",
+                    "columns": [
+                        "user_id"
+                    ],
+                    "foreign_schema": "SunTechAcademy",
+                    "foreign_table": "users",
+                    "foreign_columns": [
+                        "id"
+                    ],
+                    "on_update": "no action",
+                    "on_delete": "cascade"
+                }
+            ]
+        },
+        "migrations": {
+            "columns": [
+                {
+                    "name": "id",
+                    "type_name": "int",
+                    "type": "int unsigned",
+                    "collation": null,
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": true,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "migration",
+                    "type_name": "varchar",
+                    "type": "varchar(255)",
+                    "collation": "utf8mb4_unicode_ci",
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "batch",
+                    "type_name": "int",
+                    "type": "int",
+                    "collation": null,
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                }
+            ],
+            "indexes": [
+                {
+                    "name": "primary",
+                    "columns": [
+                        "id"
+                    ],
+                    "type": "btree",
+                    "unique": true,
+                    "primary": true
+                }
+            ],
+            "foreign_keys": []
+        },
+        "password_reset_tokens": {
+            "columns": [
+                {
+                    "name": "email",
+                    "type_name": "varchar",
+                    "type": "varchar(255)",
+                    "collation": "utf8mb4_unicode_ci",
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "token",
+                    "type_name": "varchar",
+                    "type": "varchar(255)",
+                    "collation": "utf8mb4_unicode_ci",
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "created_at",
+                    "type_name": "timestamp",
+                    "type": "timestamp",
+                    "collation": null,
+                    "nullable": true,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                }
+            ],
+            "indexes": [
+                {
+                    "name": "primary",
+                    "columns": [
+                        "email"
+                    ],
+                    "type": "btree",
+                    "unique": true,
+                    "primary": true
+                }
+            ],
+            "foreign_keys": []
+        },
+        "sessions": {
+            "columns": [
+                {
+                    "name": "id",
+                    "type_name": "varchar",
+                    "type": "varchar(255)",
+                    "collation": "utf8mb4_unicode_ci",
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "user_id",
+                    "type_name": "bigint",
+                    "type": "bigint unsigned",
+                    "collation": null,
+                    "nullable": true,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "ip_address",
+                    "type_name": "varchar",
+                    "type": "varchar(45)",
+                    "collation": "utf8mb4_unicode_ci",
+                    "nullable": true,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "user_agent",
+                    "type_name": "text",
+                    "type": "text",
+                    "collation": "utf8mb4_unicode_ci",
+                    "nullable": true,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "payload",
+                    "type_name": "longtext",
+                    "type": "longtext",
+                    "collation": "utf8mb4_unicode_ci",
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "last_activity",
+                    "type_name": "int",
+                    "type": "int",
+                    "collation": null,
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                }
+            ],
+            "indexes": [
+                {
+                    "name": "primary",
+                    "columns": [
+                        "id"
+                    ],
+                    "type": "btree",
+                    "unique": true,
+                    "primary": true
+                },
+                {
+                    "name": "sessions_last_activity_index",
+                    "columns": [
+                        "last_activity"
+                    ],
+                    "type": "btree",
+                    "unique": false,
+                    "primary": false
+                },
+                {
+                    "name": "sessions_user_id_index",
+                    "columns": [
+                        "user_id"
+                    ],
+                    "type": "btree",
+                    "unique": false,
+                    "primary": false
+                }
+            ],
+            "foreign_keys": []
+        },
+        "users": {
+            "columns": [
+                {
+                    "name": "id",
+                    "type_name": "bigint",
+                    "type": "bigint unsigned",
+                    "collation": null,
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": true,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "name",
+                    "type_name": "varchar",
+                    "type": "varchar(255)",
+                    "collation": "utf8mb4_unicode_ci",
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "email",
+                    "type_name": "varchar",
+                    "type": "varchar(255)",
+                    "collation": "utf8mb4_unicode_ci",
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "email_verified_at",
+                    "type_name": "timestamp",
+                    "type": "timestamp",
+                    "collation": null,
+                    "nullable": true,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "password",
+                    "type_name": "varchar",
+                    "type": "varchar(255)",
+                    "collation": "utf8mb4_unicode_ci",
+                    "nullable": false,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "role",
+                    "type_name": "varchar",
+                    "type": "varchar(255)",
+                    "collation": "utf8mb4_unicode_ci",
+                    "nullable": false,
+                    "default": "student",
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "remember_token",
+                    "type_name": "varchar",
+                    "type": "varchar(100)",
+                    "collation": "utf8mb4_unicode_ci",
+                    "nullable": true,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "created_at",
+                    "type_name": "timestamp",
+                    "type": "timestamp",
+                    "collation": null,
+                    "nullable": true,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                },
+                {
+                    "name": "updated_at",
+                    "type_name": "timestamp",
+                    "type": "timestamp",
+                    "collation": null,
+                    "nullable": true,
+                    "default": null,
+                    "auto_increment": false,
+                    "comment": null,
+                    "generation": null
+                }
+            ],
+            "indexes": [
+                {
+                    "name": "primary",
+                    "columns": [
+                        "id"
+                    ],
+                    "type": "btree",
+                    "unique": true,
+                    "primary": true
+                },
+                {
+                    "name": "users_email_unique",
+                    "columns": [
+                        "email"
+                    ],
+                    "type": "btree",
+                    "unique": true,
+                    "primary": false
+                }
+            ],
+            "foreign_keys": []
+        }
+    },
+    "migrations": [
+        "0001_01_01_000000_create_users_table",
+        "0001_01_01_000001_create_cache_table",
+        "0001_01_01_000002_create_jobs_table",
+        "2026_03_12_173927_create_admins_table",
+        "2026_03_15_122338_create_lms_tables",
+        "2026_06_03_151217_add_role_to_users_table",
+        "2026_06_03_151229_create_intermediate_tasks_table",
+        "2026_06_03_151238_create_intermediate_task_user_table",
+        "2026_06_04_163528_add_user_id_to_intermediate_tasks_table",
+        "2026_11_07_000001_assign_initial_super_admin",
+        "2026_11_07_000002_add_task_content_fields",
+        "2026_11_09_000001_create_related_tasks_table"
+    ]
+}

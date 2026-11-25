@@ -1,0 +1,277 @@
+[
+  {
+    "book": 0,
+    "tab": "はじめに",
+    "range": "A1:C7"
+  },
+  {
+    "book": 0,
+    "tab": "目的・対象範囲",
+    "range": "A1:C7"
+  },
+  {
+    "book": 0,
+    "tab": "機能要件",
+    "range": "A1:D7"
+  },
+  {
+    "book": 0,
+    "tab": "権限一覧",
+    "range": "A1:D7"
+  },
+  {
+    "book": 0,
+    "tab": "非機能要件",
+    "range": "A1:D7"
+  },
+  {
+    "book": 0,
+    "tab": "課題と未決事項",
+    "range": "A1:D7"
+  },
+  {
+    "book": 0,
+    "tab": "用語集",
+    "range": "A1:C7"
+  },
+  {
+    "book": 1,
+    "tab": "はじめに",
+    "range": "A1:C7"
+  },
+  {
+    "book": 1,
+    "tab": "システム構成",
+    "range": "A1:D7"
+  },
+  {
+    "book": 1,
+    "tab": "画面一覧",
+    "range": "A1:D7"
+  },
+  {
+    "book": 1,
+    "tab": "操作の流れ",
+    "range": "A1:D7"
+  },
+  {
+    "book": 1,
+    "tab": "権限一覧",
+    "range": "A1:D7"
+  },
+  {
+    "book": 1,
+    "tab": "状態・データ設計",
+    "range": "A1:D7"
+  },
+  {
+    "book": 1,
+    "tab": "運用・障害対応",
+    "range": "A1:D7"
+  },
+  {
+    "book": 2,
+    "tab": "はじめに",
+    "range": "A1:C7"
+  },
+  {
+    "book": 2,
+    "tab": "処理仕様",
+    "range": "A1:D7"
+  },
+  {
+    "book": 2,
+    "tab": "入力チェック",
+    "range": "A1:D7"
+  },
+  {
+    "book": 2,
+    "tab": "全ルート一覧",
+    "range": "A1:D7"
+  },
+  {
+    "book": 2,
+    "tab": "保存値と計算",
+    "range": "A1:D7"
+  },
+  {
+    "book": 2,
+    "tab": "改修時の確認",
+    "range": "A1:C7"
+  },
+  {
+    "book": 3,
+    "tab": "はじめに",
+    "range": "A1:C7"
+  },
+  {
+    "book": 3,
+    "tab": "やり方",
+    "range": "A1:D7"
+  },
+  {
+    "book": 3,
+    "tab": "テストケース",
+    "range": "A1:D7"
+  },
+  {
+    "book": 3,
+    "tab": "実例コード",
+    "range": "A1:B12"
+  },
+  {
+    "book": 3,
+    "tab": "実行記録",
+    "range": "A1:D7"
+  },
+  {
+    "book": 3,
+    "tab": "失敗したとき",
+    "range": "A1:C7"
+  },
+  {
+    "book": 4,
+    "tab": "はじめに",
+    "range": "A1:C7"
+  },
+  {
+    "book": 4,
+    "tab": "やり方",
+    "range": "A1:D7"
+  },
+  {
+    "book": 4,
+    "tab": "テストケース",
+    "range": "A1:D7"
+  },
+  {
+    "book": 4,
+    "tab": "実例コード",
+    "range": "A1:B12"
+  },
+  {
+    "book": 4,
+    "tab": "実行記録",
+    "range": "A1:D7"
+  },
+  {
+    "book": 4,
+    "tab": "失敗したとき",
+    "range": "A1:C7"
+  },
+  {
+    "book": 5,
+    "tab": "はじめに",
+    "range": "A1:C7"
+  },
+  {
+    "book": 5,
+    "tab": "やり方",
+    "range": "A1:D7"
+  },
+  {
+    "book": 5,
+    "tab": "テストケース",
+    "range": "A1:D7"
+  },
+  {
+    "book": 5,
+    "tab": "実例コード",
+    "range": "A1:B12"
+  },
+  {
+    "book": 5,
+    "tab": "専用データ準備コード",
+    "range": "A1:B12"
+  },
+  {
+    "book": 5,
+    "tab": "実行記録",
+    "range": "A1:D7"
+  },
+  {
+    "book": 5,
+    "tab": "失敗したとき",
+    "range": "A1:C7"
+  },
+  {
+    "book": 6,
+    "tab": "はじめに",
+    "range": "A1:C7"
+  },
+  {
+    "book": 6,
+    "tab": "全体と読み方",
+    "range": "A1:B7"
+  },
+  {
+    "book": 6,
+    "tab": "アプリ全テーブル",
+    "range": "A1:D7"
+  },
+  {
+    "book": 6,
+    "tab": "全カラム定義",
+    "range": "A1:D7"
+  },
+  {
+    "book": 6,
+    "tab": "索引・一意制約",
+    "range": "A1:D7"
+  },
+  {
+    "book": 6,
+    "tab": "外部キー",
+    "range": "A1:D7"
+  },
+  {
+    "book": 6,
+    "tab": "本番管理テーブル",
+    "range": "A1:C7"
+  },
+  {
+    "book": 6,
+    "tab": "本番管理カラム",
+    "range": "A1:D7"
+  },
+  {
+    "book": 6,
+    "tab": "migration履歴",
+    "range": "A1:D7"
+  },
+  {
+    "book": 6,
+    "tab": "データ上の注意",
+    "range": "A1:C7"
+  },
+  {
+    "book": 7,
+    "tab": "はじめに",
+    "range": "A1:K17"
+  },
+  {
+    "book": 7,
+    "tab": "ER図_学習",
+    "range": "A1:K26"
+  },
+  {
+    "book": 7,
+    "tab": "ER図_タスク",
+    "range": "A1:K29"
+  },
+  {
+    "book": 7,
+    "tab": "全テーブル一覧",
+    "range": "A1:D7"
+  },
+  {
+    "book": 7,
+    "tab": "全関連一覧",
+    "range": "A1:D7"
+  },
+  {
+    "book": 7,
+    "tab": "本番管理テーブル",
+    "range": "A1:D7"
+  }
+]

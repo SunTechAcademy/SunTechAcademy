@@ -134,7 +134,7 @@ class IntermediateCourseController extends Controller
             'unit_test'        => 'https://docs.google.com/spreadsheets/d/1Dfh6Y66O_K1uGAaHmcM1wuRL2-OUCDomP9gfBGoC4jo/edit?usp=sharing',
             'integration_test' => 'https://docs.google.com/spreadsheets/d/1K8XcPXTwwQtl90P6GBwBqXrbCUE4bYvByi2m2GvR5_Y/edit?usp=sharing',
             'system_test'      => 'https://docs.google.com/spreadsheets/d/1zTgtF7cAZDetnEPrRV99Kwkq_dnt012_tqJokExMHAI/edit?usp=sharing',
-            'er_diagram'       => 'https://bevel-street-08d.notion.site/ER-38005bbda9f280d29c68ecec180547c9?pvs=143',
+            'er_diagram'       => 'https://docs.google.com/spreadsheets/d/1wVtfJNyycRX2UwP5iTXz9KZtByQfcVVCaCKbcIeN5RY/edit',
             'db_definition'    => 'https://docs.google.com/spreadsheets/d/10j5T6Ro7UohA8_riikzBmaP92VKGd0Jz5fbldh1ApVI/edit?usp=sharing',
         ];
     }

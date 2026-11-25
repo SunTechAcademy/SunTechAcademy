@@ -73,7 +73,7 @@
                 <div class="docs-grid">
                     @foreach($group['items'] as [$key, $title, $description])
                         <a class="docs-card" href="{{ $urls[$key] }}" target="_blank" rel="noopener noreferrer">
-                            <div class="docs-card-top"><span class="docs-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg></span><span class="docs-source">{{ $key === 'er_diagram' ? 'Notion' : 'Google Sheets' }}</span></div>
+                            <div class="docs-card-top"><span class="docs-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg></span><span class="docs-source">Google Sheets</span></div>
                             <h3>{{ $title }}</h3><p>{{ $description }}</p><span class="docs-card-action">資料を開く<span aria-hidden="true">↗</span></span><span class="sr-only">（新しいタブで開きます）</span>
                         </a>
                     @endforeach
